@@ -56,6 +56,22 @@ Fraud detection uses an Isolation Forest model that monitors GPS location during
 
 Claim summaries are generated using the Google Gemini API, producing plain-language notifications in Hindi or English. For example, a worker might receive a message saying their claim for Rs 450 has been approved because heavy rainfall of 67mm per hour was recorded in their zone on 14 July between 10am and 4pm, and the payout will reach their UPI in 2 minutes.
 
+## Adversarial Defense & Anti Spoofing Strategy
+
+SafeGig is designed to protect honest delivery partners while making it very hard for organized fraud rings to game the system. A simple location check is not enough, so the platform looks at the full picture before approving any payout.
+
+Differentiation
+
+The system does not decide based only on where a phone says it is. It compares the claimed location with the worker’s recent movement pattern, normal working route, device behavior, weather conditions, and the disruption zone itself. A genuine worker usually shows consistent activity, natural movement before and after the event, and a location pattern that matches the delivery area. A bad actor trying to spoof location often shows impossible jumps, frozen coordinates, repeated fake patterns, or behavior that does not fit normal work hours. The fraud model combines these signals and treats suspicious claims differently from real stranded workers.
+
+Data
+
+To detect a coordinated fraud ring, SafeGig studies more than GPS coordinates. It checks location history, device motion, timestamp patterns, network changes, battery and sensor signals, app usage behavior, repeated claims from the same area, shared device fingerprints, unusual velocity of claims, and overlap between many users making similar requests at the same time. It also compares the claim against live weather, AQI, curfew, and zone level disruption data. When many accounts behave the same way from one cluster of devices or one neighborhood pattern, the system treats it as a likely organized attempt rather than isolated demand.
+
+UX Balance
+
+Honest workers should not be punished for weak network coverage or bad weather. If a claim is flagged, SafeGig does not reject it instantly. Instead, it places the claim in a soft review state and asks for lightweight confirmation such as a short time window check, a one tap location refresh, or passive evidence from the phone’s movement and network history. If the worker is genuinely affected by weather or connectivity problems, the claim can still be approved through fallback signals and manual review support. This keeps the process fair for real workers while making it difficult for fraud rings to drain the pool.
+
 ## Tech Stack
 
 The frontend is React with Vite, Tailwind CSS, and Framer Motion. The backend is Node.js with Express and Supabase for the database and auth. The ML service is Python FastAPI with scikit-learn and XGBoost. External APIs used are OpenWeatherMap for weather triggers, AQICN for pollution monitoring, Razorpay in sandbox mode for payout simulation, and Google Gemini for claim summaries.
