@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CloudRain, Thermometer, Wind, AlertOctagon, AlertTriangle, Zap, CheckCircle, RefreshCw } from 'lucide-react';
-import api from '../../api';
+import { adminApi as api } from '../../api';
 
 const TRIGGERS = [
   { type:'heavy_rain',          icon:CloudRain,     color:'#3b82f6', label:'Heavy Rain',        unit:'mm/hr', threshold:50  },

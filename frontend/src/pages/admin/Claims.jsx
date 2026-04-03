@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, AlertTriangle, XCircle, Zap, CloudRain, Thermometer, Wind, AlertOctagon, Eye, ThumbsUp, ThumbsDown } from 'lucide-react';
-import api from '../../api';
+import { adminApi as api } from '../../api';
 
 const STATUS_CFG = {
   paid:          { color:'#22c55e', label:'Paid'         },

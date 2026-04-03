@@ -1,25 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Flag, Ban, Eye, ChevronDown } from 'lucide-react';
-import api from '../../api';
+import { Search, Flag, Ban, Eye, ChevronDown, RefreshCw } from 'lucide-react';
+import { adminApi } from '../../api';
 
 const RISK_COLOR = { Low:'#22c55e', Standard:'#3b82f6', High:'#f59e0b', Critical:'#ef4444' };
 
+// Compute risk tier from worker data (mirrors riskEngine logic)
+function getRiskTier(worker) {
+  const cityRisk = { mumbai:0.72, delhi:0.68, bangalore:0.42, bengaluru:0.42, chennai:0.58, kolkata:0.63, hyderabad:0.48, pune:0.38, ahmedabad:0.52, gurgaon:0.55, gurugram:0.55, noida:0.58 };
+  const city = worker.city?.toLowerCase().trim() || '';
+  const base = cityRisk[city] ?? 0.50;
+  const hours = Math.min((worker.weekly_hours || 40) / 80, 1) * 0.18;
+  const score = Math.min(base + hours + 0.05, 1.0);
+  if (score <= 0.25) return 'Low';
+  if (score <= 0.50) return 'Standard';
+  if (score <= 0.75) return 'High';
+  return 'Critical';
+}
+
 export default function Workers() {
   const [workers, setWorkers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch]   = useState('');
   const [filter, setFilter]   = useState({ city:'', platform:'', tier:'' });
   const [selected, setSelected] = useState(null);
 
-  useEffect(() => {
-    api.get('/admin/workers').then(r => setWorkers(r.data)).catch(() => {
-      setWorkers([
-        { id:'1', name:'Mayank Sharma', phone:'9999999999', city:'Gurgaon', platform:'Zepto', weekly_hours:40, pin_code:'122004', risk_tier:'High', created_at:'2026-03-01', status:'active' },
-        { id:'2', name:'Vartika Singh', phone:'8888888888', city:'Chennai', platform:'Zepto', weekly_hours:50, pin_code:'600001', risk_tier:'Critical', created_at:'2026-03-15', status:'active' },
-        { id:'3', name:'Rahul Verma',   phone:'7777777777', city:'Delhi',   platform:'Blinkit', weekly_hours:35, pin_code:'110001', risk_tier:'Standard', created_at:'2026-02-20', status:'flagged' },
-      ]);
-    });
-  }, []);
+  const fetchWorkers = () => {
+    setLoading(true);
+    adminApi.get('/admin/workers')
+      .then(r => setWorkers(r.data.map(w => ({ ...w, risk_tier: getRiskTier(w) }))))
+      .catch(e => console.error('Failed to fetch workers:', e))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => { fetchWorkers(); }, []);
 
   const filtered = workers.filter(w =>
     (!search || w.name.toLowerCase().includes(search.toLowerCase()) || w.phone.includes(search)) &&
@@ -32,7 +46,12 @@ export default function Workers() {
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div><h2 className="text-2xl font-black" style={{color:'var(--text-1)'}}>Worker Management</h2><p className="text-sm" style={{color:'var(--text-3)'}}>Full registry of all delivery partners</p></div>
-        <div className="px-4 py-2 rounded-full text-sm font-bold" style={{background:'rgba(59,130,246,0.1)',color:'#3b82f6'}}>{workers.length} workers</div>
+        <div className="flex items-center gap-3">
+          <button onClick={fetchWorkers} className="p-2 rounded-xl hover:bg-white/10 transition-colors">
+            <RefreshCw size={15} style={{color:'var(--text-3)'}} className={loading?'animate-spin':''} />
+          </button>
+          <div className="px-4 py-2 rounded-full text-sm font-bold" style={{background:'rgba(59,130,246,0.1)',color:'#3b82f6'}}>{workers.length} workers</div>
+        </div>
       </div>
 
       <div className="flex gap-3 flex-wrap">

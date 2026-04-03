@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { IndianRupee, CheckCircle, XCircle, Clock, RefreshCw } from 'lucide-react';
-import api from '../../api';
+import { adminApi as api } from '../../api';
 
 const STATUS_CFG = {
   completed: { color:'#22c55e', icon:CheckCircle, label:'Completed' },

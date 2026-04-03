@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { RefreshCw, XCircle, ChevronDown } from 'lucide-react';
-import api from '../../api';
+import { adminApi as api } from '../../api';
 
 const STATUS_COLOR = { active:'#22c55e', expired:'#6b7280', cancelled:'#ef4444' };
 
