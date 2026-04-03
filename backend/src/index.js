@@ -7,7 +7,9 @@ const workerRoutes = require('./routes/workers');
 const policyRoutes = require('./routes/policies');
 const triggerRoutes = require('./routes/triggers');
 const claimRoutes = require('./routes/claims');
-const payoutRoutes = require('./routes/payouts');
+const payoutRoutes   = require('./routes/payouts');
+const paymentRoutes  = require('./routes/payments');
+const adminRoutes    = require('./routes/admin');
 
 const app = express();
 
@@ -19,7 +21,9 @@ app.use('/api/workers', workerRoutes);
 app.use('/api/policies', policyRoutes);
 app.use('/api/triggers', triggerRoutes);
 app.use('/api/claims', claimRoutes);
-app.use('/api/payouts', payoutRoutes);
+app.use('/api/payouts',   payoutRoutes);
+app.use('/api/payments',  paymentRoutes);
+app.use('/api/admin',     adminRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok', service: 'safegig-backend' }));
 

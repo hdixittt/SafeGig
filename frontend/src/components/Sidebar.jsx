@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Shield, LogOut, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Shield, LogOut, Sparkles, CreditCard } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
 const nav = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/plans',     icon: CreditCard,      label: 'Plans & Payment' },
 ];
 
 export default function Sidebar({ worker }) {

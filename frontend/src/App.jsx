@@ -5,6 +5,7 @@ import Login       from './pages/Login';
 import AdminLogin  from './pages/AdminLogin';
 import Dashboard   from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import Plans       from './pages/Plans';
 
 const WorkerRoute = ({ children }) =>
   localStorage.getItem('sb_token') ? children : <Navigate to="/login" />;
@@ -20,6 +21,7 @@ export default function App() {
       <Route path="/login"        element={<Login />} />
       <Route path="/admin/login"  element={<AdminLogin />} />
       <Route path="/dashboard"    element={<WorkerRoute><Dashboard /></WorkerRoute>} />
+      <Route path="/plans"        element={<WorkerRoute><Plans /></WorkerRoute>} />
       <Route path="/admin"        element={<AdminRoute><AdminDashboard /></AdminRoute>} />
     </Routes>
   );

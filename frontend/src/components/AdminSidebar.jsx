@@ -1,14 +1,29 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShieldCheck, LayoutDashboard, LogOut } from 'lucide-react';
+import {
+  ShieldCheck, LayoutDashboard, LogOut, Users, FileText, Cpu,
+  Zap, AlertTriangle, IndianRupee, Map, Activity, Bell, Download, UserCog
+} from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
 const nav = [
-  { to: '/admin', icon: LayoutDashboard, label: 'Overview' },
+  { id: 'overview',      icon: LayoutDashboard, label: 'Overview'           },
+  { id: 'workers',       icon: Users,           label: 'Workers'            },
+  { id: 'policies',      icon: FileText,        label: 'Policies'           },
+  { id: 'pricing',       icon: Cpu,             label: 'Premium Engine'     },
+  { id: 'triggers',      icon: Zap,             label: 'Trigger Monitor'    },
+  { id: 'claims',        icon: AlertTriangle,   label: 'Claims'             },
+  { id: 'fraud',         icon: ShieldCheck,     label: 'Fraud & Risk'       },
+  { id: 'payouts',       icon: IndianRupee,     label: 'Payouts'            },
+  { id: 'heatmap',       icon: Map,             label: 'Zone Heatmap'       },
+  { id: 'mlhealth',      icon: Activity,        label: 'ML Health'          },
+  { id: 'notifications', icon: Bell,            label: 'Notifications'      },
+  { id: 'reports',       icon: Download,        label: 'Reports'            },
+  { id: 'roles',         icon: UserCog,         label: 'Roles & Users'      },
 ];
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ activeTab, setActiveTab }) {
   const navigate = useNavigate();
   const logout = () => { localStorage.removeItem('admin_token'); navigate('/admin/login'); };
 
@@ -19,7 +34,6 @@ export default function AdminSidebar() {
       transition={{ duration: 0.35 }}
       className="sidebar-premium w-60 flex-shrink-0 flex flex-col h-screen sticky top-0"
     >
-      {/* Logo */}
       <div className="px-5 py-5 flex items-center gap-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="w-9 h-9 rounded-xl flex items-center justify-center"
           style={{ background: 'linear-gradient(135deg, #ef4444, #f97316)' }}>
@@ -32,14 +46,11 @@ export default function AdminSidebar() {
         </span>
       </div>
 
-      {/* User card */}
-      <div className="mx-3 mt-4 mb-2 p-4 rounded-2xl"
+      <div className="mx-3 mt-4 mb-2 p-3 rounded-2xl"
         style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black text-white"
-            style={{ background: 'linear-gradient(135deg, #ef4444, #f97316)' }}>
-            A
-          </div>
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black text-white"
+            style={{ background: 'linear-gradient(135deg, #ef4444, #f97316)' }}>A</div>
           <div>
             <p className="text-sm font-bold" style={{ color: 'var(--text-1)' }}>Admin</p>
             <p className="text-xs" style={{ color: 'rgba(239,68,68,0.8)' }}>admin@safegig.demo</p>
@@ -47,33 +58,21 @@ export default function AdminSidebar() {
         </div>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 px-3 py-2 space-y-1">
-        {nav.map(({ to, icon: Icon, label }) => (
-          <NavLink
-            key={to}
-            end
-            to={to}
-            className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`}
-          >
-            <Icon size={17} />
-            <span>{label}</span>
-          </NavLink>
+      <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto">
+        {nav.map(({ id, icon: Icon, label }) => (
+          <button key={id} onClick={() => setActiveTab(id)}
+            className={`sidebar-item w-full text-left ${activeTab === id ? 'active' : ''}`}>
+            <Icon size={16} />
+            <span className="text-sm">{label}</span>
+          </button>
         ))}
       </nav>
 
-      {/* Logout */}
       <div className="p-3 space-y-1" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <ThemeToggle className="w-full justify-start" />
-        <button
-          onClick={logout}
-          className="sidebar-item w-full text-left"
-          style={{ color: 'rgba(255,255,255,0.5)' }}
-          onMouseEnter={e => { e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.background = 'rgba(239,68,68,0.08)'; }}
-          onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; e.currentTarget.style.background = ''; }}
-        >
-          <LogOut size={17} />
-          <span>Logout</span>
+        <button onClick={logout} className="sidebar-item w-full text-left hover:!bg-red-500/10 hover:!text-red-400">
+          <LogOut size={16} />
+          <span className="text-sm">Logout</span>
         </button>
       </div>
     </motion.aside>

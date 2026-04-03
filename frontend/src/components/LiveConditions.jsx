@@ -1,111 +1,143 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CloudRain, Thermometer, Wind, AlertTriangle, CheckCircle, RefreshCw } from 'lucide-react';
+import { CloudRain, Thermometer, Wind, AlertOctagon, AlertTriangle, CheckCircle, RefreshCw } from 'lucide-react';
+import api from '../api';
 
-// Mock live conditions per city — simulates real Weather/AQI API
-const CITY_CONDITIONS = {
-  mumbai:    { rain: 65, temp: 32, aqi: 180, humidity: 88 },
-  delhi:     { rain: 8,  temp: 44, aqi: 342, humidity: 35 },
-  bangalore: { rain: 18, temp: 29, aqi: 88,  humidity: 72 },
-  chennai:   { rain: 52, temp: 38, aqi: 215, humidity: 80 },
-  kolkata:   { rain: 70, temp: 35, aqi: 265, humidity: 85 },
-  hyderabad: { rain: 12, temp: 43, aqi: 148, humidity: 42 },
-  gurgaon:   { rain: 5,  temp: 43, aqi: 310, humidity: 38 },
-  pune:      { rain: 22, temp: 31, aqi: 95,  humidity: 68 },
+const TRIGGER_CONFIG = {
+  heavy_rain:          { icon: CloudRain,      color: '#3b82f6', label: 'Heavy Rain',         unit: 'mm/hr',  threshold: 50  },
+  extreme_heat:        { icon: Thermometer,    color: '#f97316', label: 'Extreme Heat',        unit: '°C',     threshold: 42  },
+  severe_pollution:    { icon: Wind,           color: '#8b5cf6', label: 'Severe Pollution',    unit: 'AQI',    threshold: 300 },
+  curfew_strike:       { icon: AlertOctagon,   color: '#ef4444', label: 'Curfew / Strike',     unit: 'active', threshold: 1   },
+  road_accident_surge: { icon: AlertTriangle,  color: '#f59e0b', label: 'Accident Surge',      unit: '/hr',    threshold: 5   },
 };
 
-const THRESHOLDS = { rain: 50, temp: 42, aqi: 300 };
-
-function getAqiLabel(aqi) {
-  if (aqi <= 50)  return { label: 'Good',      color: '#22c55e' };
-  if (aqi <= 100) return { label: 'Moderate',  color: '#f59e0b' };
-  if (aqi <= 200) return { label: 'Unhealthy', color: '#f97316' };
-  return                  { label: 'Hazardous', color: '#ef4444' };
+function TriggerBadge({ type, actual_value }) {
+  const cfg = TRIGGER_CONFIG[type];
+  if (!cfg) return null;
+  const Icon = cfg.icon;
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold"
+      style={{ background: `${cfg.color}20`, color: cfg.color, border: `1px solid ${cfg.color}40` }}
+    >
+      <Icon size={12} strokeWidth={2.5} />
+      {cfg.label}: {actual_value}{cfg.unit !== 'active' ? ` ${cfg.unit}` : ''}
+    </motion.div>
+  );
 }
 
 export default function LiveConditions({ city }) {
-  const [data, setData] = useState(null);
-  const [lastUpdated, setLastUpdated] = useState(null);
-  const [refreshing, setRefreshing] = useState(false);
+  const [data, setData]       = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [lastRefresh, setLastRefresh] = useState(null);
 
-  const load = () => {
-    setRefreshing(true);
-    setTimeout(() => {
-      const base = CITY_CONDITIONS[city?.toLowerCase()] || CITY_CONDITIONS.mumbai;
-      setData({
-        rain:     +(base.rain     + (Math.random() * 6 - 3)).toFixed(1),
-        temp:     +(base.temp     + (Math.random() * 2 - 1)).toFixed(1),
-        aqi:      Math.round(base.aqi + (Math.random() * 20 - 10)),
-        humidity: Math.round(base.humidity + (Math.random() * 4 - 2)),
-      });
-      setLastUpdated(new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }));
-      setRefreshing(false);
-    }, 600);
+  const fetchConditions = async () => {
+    if (!city) return;
+    setLoading(true);
+    try {
+      const res = await api.get(`/triggers/conditions/${city.toLowerCase()}`);
+      setData(res.data);
+      setLastRefresh(new Date());
+    } catch (e) {
+      console.error('LiveConditions fetch error:', e);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => { load(); const t = setInterval(load, 30000); return () => clearInterval(t); }, [city]);
+  useEffect(() => {
+    fetchConditions();
+    const interval = setInterval(fetchConditions, 60000); // refresh every 60s
+    return () => clearInterval(interval);
+  }, [city]);
 
-  if (!data) return <div className="glass-card-strong p-8 animate-pulse h-64" />;
+  if (loading && !data) return (
+    <div className="glass-card-strong p-6 animate-pulse">
+      <div className="h-4 bg-white/10 rounded w-48 mb-4" />
+      <div className="flex gap-3">
+        {[1,2,3,4,5].map(i => <div key={i} className="h-8 bg-white/10 rounded-full w-28" />)}
+      </div>
+    </div>
+  );
 
-  const alerts = [];
-  if (data.rain > THRESHOLDS.rain) alerts.push({ msg: `Heavy rainfall (${data.rain} mm/hr) — policy may trigger`, color: '#3b82f6' });
-  if (data.temp > THRESHOLDS.temp) alerts.push({ msg: `Extreme heat (${data.temp}°C) — policy may trigger`, color: '#ef4444' });
-  if (data.aqi  > THRESHOLDS.aqi)  alerts.push({ msg: `Hazardous AQI (${data.aqi}) — policy may trigger`, color: '#8b5cf6' });
-
-  const aqiInfo = getAqiLabel(data.aqi);
+  const activeTriggers = data?.active_triggers || [];
+  const cond = data?.conditions || {};
+  const allClear = activeTriggers.length === 0;
 
   return (
-    <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.35}} className="glass-card-strong p-8">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <div className="flex items-center gap-3 mb-1">
-            <h2 className="text-xl font-black" style={{ color: 'var(--text-1)' }}>Live Conditions</h2>
-            <span className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/15 text-green-400 text-xs font-black uppercase">
-              <span className="pulse-glow w-2 h-2 rounded-full bg-green-400 inline-block" />
-              LIVE
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="glass-card-strong p-6"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className={`w-2.5 h-2.5 rounded-full ${allClear ? 'bg-green-400' : 'bg-red-400'} animate-pulse`} />
+          <h3 className="text-base font-black" style={{ color: 'var(--text-1)' }}>
+            Live Conditions — {city}
+          </h3>
+          {!allClear && (
+            <span className="px-2 py-0.5 rounded-full text-xs font-black bg-red-500/15 text-red-400">
+              {activeTriggers.length} ALERT{activeTriggers.length > 1 ? 'S' : ''}
             </span>
-          </div>
-          <p className="text-sm font-medium" style={{ color: 'var(--text-2)' }}>{city} · Updated {lastUpdated}</p>
+          )}
         </div>
-        <button onClick={load} disabled={refreshing} 
-          className="p-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition-all">
-          <RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} />
-        </button>
+        <div className="flex items-center gap-3">
+          {lastRefresh && (
+            <span className="text-xs font-medium" style={{ color: 'var(--text-3)' }}>
+              Updated {lastRefresh.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+            </span>
+          )}
+          <button onClick={fetchConditions} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors">
+            <RefreshCw size={14} style={{ color: 'var(--text-3)' }} />
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mb-6">
-        {[
-          { icon: CloudRain,   label: 'Rainfall',    value: `${data.rain} mm/hr`, alert: data.rain > THRESHOLDS.rain,  color: '#3b82f6' },
-          { icon: Thermometer, label: 'Temperature', value: `${data.temp}°C`,     alert: data.temp > THRESHOLDS.temp,  color: '#ef4444' },
-          { icon: Wind,        label: 'AQI',         value: data.aqi,             alert: data.aqi  > THRESHOLDS.aqi,   color: aqiInfo.color, sub: aqiInfo.label },
-          { icon: Wind,        label: 'Humidity',    value: `${data.humidity}%`,  alert: false,                        color: '#06b6d4' },
-        ].map(({ icon: Icon, label, value, alert, color, sub }) => (
-          <div key={label} className="rounded-2xl p-5 text-center transition-all hover:scale-105"
-            style={{background: alert ? `${color}15` : 'rgba(255,255,255,0.03)', border:`1px solid ${alert ? color+'40' : 'rgba(255,255,255,0.08)'}` }}>
-            <Icon size={24} className="mx-auto mb-3" style={{color}} strokeWidth={2.5} />
-            <p className="text-2xl font-black mb-1" style={{color: alert ? color : 'var(--text-1)'}}>{value}</p>
-            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--text-2)' }}>{label}</p>
-            {sub && <p className="text-xs font-bold mt-1" style={{color}}>{sub}</p>}
-            {alert && <p className="text-xs mt-2 font-black" style={{color}}>⚠ ALERT</p>}
+      {/* Condition metrics row */}
+      <div className="flex flex-wrap gap-3 mb-4">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'var(--bg-2)', color: 'var(--text-2)' }}>
+          <CloudRain size={13} className="text-blue-400" />
+          Rain: {cond.rain_mm_hr ?? '--'} mm/hr
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'var(--bg-2)', color: 'var(--text-2)' }}>
+          <Thermometer size={13} className="text-orange-400" />
+          Temp: {cond.temperature_c ?? '--'}°C
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'var(--bg-2)', color: 'var(--text-2)' }}>
+          <Wind size={13} className="text-purple-400" />
+          AQI: {cond.aqi ?? '--'}
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'var(--bg-2)', color: 'var(--text-2)' }}>
+          <AlertTriangle size={13} className="text-yellow-400" />
+          Accidents: {cond.accident_rate ?? '--'}/hr
+        </div>
+        {cond.curfew_active && (
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-red-500/15 text-red-400">
+            <AlertOctagon size={13} />
+            Curfew Active
           </div>
-        ))}
+        )}
       </div>
 
+      {/* Active trigger badges */}
       <AnimatePresence>
-        {alerts.length > 0 ? (
-          <motion.div initial={{opacity:0,height:0}} animate={{opacity:1,height:'auto'}} exit={{opacity:0,height:0}} className="space-y-3">
-            {alerts.map((a, i) => (
-              <div key={i} className="flex items-center gap-3 px-5 py-4 rounded-xl text-sm font-bold"
-                style={{background:`${a.color}15`, border:`1px solid ${a.color}30`, color:a.color}}>
-                <AlertTriangle size={18} strokeWidth={2.5} />{a.msg}
-              </div>
-            ))}
+        {allClear ? (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            className="flex items-center gap-2 text-sm font-semibold text-green-400"
+          >
+            <CheckCircle size={16} strokeWidth={2.5} />
+            All clear — no active disruptions in your zone
           </motion.div>
         ) : (
-          <motion.div initial={{opacity:0}} animate={{opacity:1}} 
-            className="flex items-center gap-3 px-5 py-4 rounded-xl text-sm font-bold bg-green-500/15 border border-green-500/30 text-green-400">
-            <CheckCircle size={18} strokeWidth={2.5} />All conditions normal — no triggers active
-          </motion.div>
+          <div className="flex flex-wrap gap-2">
+            {activeTriggers.map((t, i) => (
+              <TriggerBadge key={i} type={t.type} actual_value={t.actual_value} />
+            ))}
+          </div>
         )}
       </AnimatePresence>
     </motion.div>

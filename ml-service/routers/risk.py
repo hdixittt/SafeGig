@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-import numpy as np
+from ml_core import predict_risk
 
 router = APIRouter()
 
@@ -12,13 +12,6 @@ RISK_TIERS = [
     {"max_score": 1.00, "tier": "Premium",  "premium": 89,  "coverage": 3500},
 ]
 
-# City-level base risk (mock — replace with real historical data)
-CITY_RISK = {
-    "mumbai": 0.75, "delhi": 0.70, "bangalore": 0.45,
-    "chennai": 0.60, "kolkata": 0.65, "hyderabad": 0.50,
-    "pune": 0.40, "ahmedabad": 0.55,
-}
-
 class RiskInput(BaseModel):
     city: str
     pin_code: str
@@ -28,30 +21,34 @@ class RiskInput(BaseModel):
 @router.post("/risk-score")
 def compute_risk_score(data: RiskInput):
     """
-    Compute AI risk score using city base risk + working hours factor.
-    In production: replace with trained XGBoost model.
+    Compute AI risk score using Scikit-Learn RandomForestRegressor model.
+    Dynamically adjusts premium based on worker location (e.g. water-logging safe zones).
     """
-    city_key = data.city.lower().strip()
-    base_risk = CITY_RISK.get(city_key, 0.50)
-
-    # Hours factor: more hours = more exposure
-    hours_factor = min(data.weekly_hours / 60.0, 1.0) * 0.2
-
-    # Platform factor (mock)
-    platform_risk = {"zepto": 0.05, "blinkit": 0.03, "instamart": 0.04}.get(
-        data.platform.lower(), 0.03
-    )
-
-    risk_score = round(min(base_risk + hours_factor + platform_risk, 1.0), 3)
+    try:
+        risk_score, is_safe = predict_risk(data.city, data.platform, data.weekly_hours, data.pin_code)
+    except Exception as e:
+        print("ML Model Inference Failed:", e)
+        risk_score, is_safe = 0.5, 0  # Fallback
+        
+    risk_score = round(min(risk_score, 1.0), 3)
 
     # Determine tier
     tier_info = next(t for t in RISK_TIERS if risk_score <= t["max_score"])
-
+    
+    premium = tier_info["premium"]
+    coverage = tier_info["coverage"]
+    
+    # Apply dynamic pricing logic exactly as requested: charges ₹2 less per week if in safe zone
+    if is_safe:
+        premium -= 2
+        
     return {
         "risk_score": risk_score,
         "tier": tier_info["tier"],
-        "premium": tier_info["premium"],
-        "coverage": tier_info["coverage"],
+        "premium": max(premium, 19),  # Give a floor of 19
+        "coverage": coverage,
         "city": data.city,
         "pin_code": data.pin_code,
+        "is_safe_zone": bool(is_safe),
+        "message": "₹2 Discount Applied for Operating in Historically Safe Zone" if is_safe else "Standard Compute"
     }
