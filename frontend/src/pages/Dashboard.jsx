@@ -239,6 +239,16 @@ export default function Dashboard() {
                   <span className="text-sm font-semibold" style={{color:'var(--text-2)'}}>City</span>
                   <span className="text-lg font-black" style={{color:'var(--text-1)'}}>{worker?.city}</span>
                 </div>
+                <div className="flex items-center justify-between p-4 rounded-xl" style={{background:'rgba(34,197,94,0.08)',border:'1px solid rgba(34,197,94,0.2)'}}>
+                  <div>
+                    <span className="text-sm font-semibold" style={{color:'var(--text-2)'}}>GPS Zone (PIN)</span>
+                    <p className="text-xs mt-0.5" style={{color:'var(--text-3)'}}>Claims validated against this zone</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-lg font-black text-green-400">{worker?.pin_code}</span>
+                    <p className="text-xs mt-0.5 text-green-400 font-bold">✓ Verified</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
