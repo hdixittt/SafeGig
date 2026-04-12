@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ShieldCheck, LayoutDashboard, LogOut, Users, FileText, Cpu,
-  Zap, AlertTriangle, IndianRupee, Map, Activity, Bell, Download, UserCog
+  Zap, AlertTriangle, IndianRupee, Map, Activity, Bell, Download, UserCog, BarChart2
 } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
@@ -21,6 +21,7 @@ const nav = [
   { id: 'notifications', icon: Bell,            label: 'Notifications'      },
   { id: 'reports',       icon: Download,        label: 'Reports'            },
   { id: 'roles',         icon: UserCog,         label: 'Roles & Users'      },
+  { id: 'analytics',     icon: BarChart2,       label: 'Predictive Analytics' },
 ];
 
 export default function AdminSidebar({ activeTab, setActiveTab }) {

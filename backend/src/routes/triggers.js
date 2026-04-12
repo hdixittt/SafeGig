@@ -196,3 +196,60 @@ router.post('/mock', async (req, res) => {
 });
 
 module.exports = router;
+
+// POST /api/triggers/scan-all — backend monitoring: check all active workers and auto-file claims
+// Called by admin or a cron job — no auth needed for demo
+router.post('/scan-all', async (req, res) => {
+  const { supabaseAdmin: db } = require('../supabase');
+
+  // Get all workers with active policies
+  const { data: policies } = await db
+    .from('policies').select('*, workers(id, city, pin_code)').eq('status', 'active');
+
+  if (!policies?.length) return res.json({ scanned: 0, triggered: 0, message: 'No active policies' });
+
+  let triggered = 0;
+  const results = [];
+
+  for (const policy of policies) {
+    const worker = policy.workers;
+    if (!worker?.city) continue;
+
+    try {
+      const cond = await fetchLiveConditions(worker.city);
+      const fires = evaluateTriggers(cond);
+
+      for (const fire of fires) {
+        // Insert trigger
+        const { data: trigger } = await db
+          .from('triggers')
+          .insert([{ type: fire.type, pin_code: worker.pin_code, threshold_value: fire.threshold_value, actual_value: fire.actual_value, source: 'backend_scan', fired_at: new Date().toISOString() }])
+          .select().single();
+
+        if (!trigger) continue;
+
+        // Check if claim already exists
+        const { count } = await db.from('claims').select('id', { count: 'exact', head: true }).eq('trigger_id', trigger.id);
+        if (count > 0) continue;
+
+        // Auto-file claim
+        const payoutRatios = { heavy_rain: 0.40, curfew_strike: 0.40, extreme_heat: 0.25, severe_pollution: 0.25, road_accident_surge: 0.35 };
+        const payoutAmount = Math.round(policy.coverage_amount * (payoutRatios[fire.type] ?? 0.30));
+        const txnId = `TXN${Date.now()}${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+
+        const { data: claim } = await db.from('claims')
+          .insert([{ policy_id: policy.id, trigger_id: trigger.id, trigger_type: fire.type, amount: payoutAmount, fraud_score: 0.05, status: 'approved', initiated_at: new Date().toISOString() }])
+          .select().single();
+
+        if (claim) {
+          await db.from('payouts').insert([{ claim_id: claim.id, amount: payoutAmount, channel: 'UPI (Simulated)', status: 'completed', transaction_id: txnId, initiated_at: new Date().toISOString(), completed_at: new Date().toISOString() }]);
+          await db.from('claims').update({ status: 'paid' }).eq('id', claim.id);
+          triggered++;
+          results.push({ worker_id: worker.id, city: worker.city, trigger: fire.type, payout: payoutAmount });
+        }
+      }
+    } catch (e) { /* skip failed workers */ }
+  }
+
+  res.json({ scanned: policies.length, triggered, results });
+});

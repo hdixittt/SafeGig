@@ -13,6 +13,7 @@ import MLHealth      from './admin/MLHealth';
 import Notifications from './admin/Notifications';
 import Reports       from './admin/Reports';
 import Roles         from './admin/Roles';
+import Analytics     from './admin/Analytics';
 
 const TABS = {
   overview:      Overview,
@@ -28,6 +29,7 @@ const TABS = {
   notifications: Notifications,
   reports:       Reports,
   roles:         Roles,
+  analytics:     Analytics,
 };
 
 export default function AdminDashboard() {

@@ -77,7 +77,7 @@ export default function Dashboard() {
         setAutoClaimBanner(data);
         const claimsRes = await api.get(`/claims/worker/${worker.id}`);
         setClaims(claimsRes.data);
-        setTimeout(() => setAutoClaimBanner(null), 8000);
+        setTimeout(() => setAutoClaimBanner(null), 10000);
       }
     } catch (e) { console.error('Auto-claim check failed', e); }
   };
@@ -108,24 +108,39 @@ export default function Dashboard() {
       <Sidebar worker={worker} />
       <main className="flex-1 overflow-auto">
 
-        {/* Zero-Touch Auto-Claim Banner */}
+        {/* Zero-Touch Auto-Claim Banner — UPI Payout Receipt */}
         <AnimatePresence>
           {autoClaimBanner && (
             <motion.div
               initial={{opacity:0,y:-60}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-60}}
-              className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 px-6 py-4 rounded-2xl shadow-2xl"
-              style={{background:'linear-gradient(135deg,rgba(34,197,94,0.95),rgba(16,185,129,0.95))',backdropFilter:'blur(20px)',minWidth:'400px'}}
+              className="fixed top-4 left-1/2 -translate-x-1/2 z-50 shadow-2xl"
+              style={{minWidth:'480px', maxWidth:'560px'}}
             >
-              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-                <Zap size={20} className="text-white" strokeWidth={3} />
+              <div className="rounded-2xl overflow-hidden" style={{background:'linear-gradient(135deg,rgba(34,197,94,0.97),rgba(16,185,129,0.97))',backdropFilter:'blur(20px)'}}>
+                <div className="flex items-center gap-4 px-6 py-4">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <Zap size={20} className="text-white" strokeWidth={3} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-white font-black text-sm">Zero-Touch Claim Filed & Paid</p>
+                    <p className="text-white/80 text-xs font-medium">{autoClaimBanner.message}</p>
+                  </div>
+                  <button onClick={() => setAutoClaimBanner(null)} className="text-white/60 hover:text-white"><X size={16} /></button>
+                </div>
+                {/* UPI Receipt */}
+                <div className="mx-4 mb-4 p-4 rounded-xl bg-white/10">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-white/70 text-xs font-bold uppercase tracking-wider">UPI Payment Receipt</span>
+                    <span className="text-white text-xs font-black bg-white/20 px-2 py-0.5 rounded-full">PAID</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div><p className="text-white/60">Amount</p><p className="text-white font-black text-lg">₹{autoClaimBanner.claim?.amount || '—'}</p></div>
+                    <div><p className="text-white/60">Channel</p><p className="text-white font-bold">UPI (Simulated)</p></div>
+                    <div><p className="text-white/60">GPS Validated</p><p className="text-white font-bold">{autoClaimBanner.gps_validated !== false ? '✓ Passed' : '⚠ Flagged'}</p></div>
+                    <div><p className="text-white/60">Fraud Score</p><p className="text-white font-bold">{autoClaimBanner.fraud_score ? `${(autoClaimBanner.fraud_score*100).toFixed(0)}% (Safe)` : '—'}</p></div>
+                  </div>
+                </div>
               </div>
-              <div className="flex-1">
-                <p className="text-white font-black text-sm">Zero-Touch Claim Filed</p>
-                <p className="text-white/80 text-xs font-medium">{autoClaimBanner.message}</p>
-              </div>
-              <button onClick={() => setAutoClaimBanner(null)} className="text-white/60 hover:text-white">
-                <X size={16} />
-              </button>
             </motion.div>
           )}
         </AnimatePresence>
@@ -159,8 +174,8 @@ export default function Dashboard() {
           <div className="grid grid-cols-4 gap-6">
             <StatCard label="Risk Score"     value={`${riskScore}%`}                          icon={TrendingUp}  color="#f97316" delay={0}   sub={riskProfile?.tier + ' tier'} trend={-5} />
             <StatCard label="Weekly Premium" value={riskProfile ? `₹${riskProfile.premium}` : '—'} icon={IndianRupee} color="#3b82f6" delay={0.1} sub="Dynamic ML pricing" />
-            <StatCard label="Total Claims"   value={totalClaims}                               icon={FileText}    color="#8b5cf6" delay={0.2} sub={`₹${totalPaid} paid out`} trend={12} />
-            <StatCard label="Max Coverage"   value={riskProfile ? `₹${riskProfile.coverage}` : '—'} icon={Shield}     color="#22c55e" delay={0.3} sub="Per week" />
+            <StatCard label="Earnings Protected" value={activePolicy ? `₹${activePolicy.coverage_amount}` : '—'} icon={Shield} color="#22c55e" delay={0.2} sub={activePolicy ? 'This week' : 'No active policy'} />
+            <StatCard label="Total Paid Out"   value={`₹${totalPaid}`}                        icon={FileText}    color="#8b5cf6" delay={0.3} sub={`${totalClaims} claims filed`} trend={totalClaims > 0 ? 12 : 0} />
           </div>
 
           {/* Live Conditions — 5 triggers */}

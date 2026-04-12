@@ -145,21 +145,7 @@ export default function Plans() {
         plan: plan.key,
       });
 
-      // Mock mode — skip Razorpay UI and directly verify
-      if (order.mock) {
-        const { data: result } = await api.post('/payments/verify', {
-          razorpay_order_id:   order.order_id,
-          razorpay_payment_id: `pay_mock_${Date.now()}`,
-          razorpay_signature:  'mock_signature',
-          worker_id:           worker.id,
-          plan:                plan.key,
-        });
-        setSuccess(result);
-        setTimeout(() => navigate('/dashboard'), 2500);
-        return;
-      }
-
-      // Real Razorpay checkout
+      // Always open Razorpay checkout — mock orders use a simulated UI flow
       const options = {
         key:         order.key,
         amount:      order.amount,
@@ -167,12 +153,13 @@ export default function Plans() {
         name:        'SafeGig Insurance',
         description: `${plan.name} — Weekly Policy`,
         order_id:    order.order_id,
-        image:       '/logo.png',
+        image:       'https://safe-gig-omega.vercel.app/favicon.ico',
         prefill: {
           name:    worker.name,
           contact: worker.phone,
-          email:   worker.email,
+          email:   worker.email || `${worker.phone}@safegig.demo`,
         },
+        notes: { plan: plan.name, worker_id: worker.id },
         theme: { color: plan.color },
         handler: async (response) => {
           const { data: result } = await api.post('/payments/verify', {
@@ -183,6 +170,29 @@ export default function Plans() {
           setSuccess(result);
           setTimeout(() => navigate('/dashboard'), 2500);
         },
+        modal: {
+          ondismiss: () => setPaying(null),
+        },
+      };
+
+      // For mock orders (Razorpay keys not configured), simulate the checkout
+      if (order.mock) {
+        // Show a simulated payment modal instead of auto-approving
+        const confirmed = window.confirm(
+          `SafeGig Insurance — ${plan.name}\n\nAmount: ₹${plan.premium}/week\nCoverage: ₹${plan.coverage}\n\nClick OK to simulate payment via UPI (Test Mode)`
+        );
+        if (!confirmed) { setPaying(null); return; }
+        const { data: result } = await api.post('/payments/verify', {
+          razorpay_order_id:   order.order_id,
+          razorpay_payment_id: `pay_sim_${Date.now()}`,
+          razorpay_signature:  'mock_signature',
+          worker_id:           worker.id,
+          plan:                plan.key,
+        });
+        setSuccess(result);
+        setTimeout(() => navigate('/dashboard'), 2500);
+        return;
+      }
       };
 
       const rzp = new window.Razorpay(options);

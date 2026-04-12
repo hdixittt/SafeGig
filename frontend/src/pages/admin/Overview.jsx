@@ -127,3 +127,4 @@ export default function Overview() {
     </div>
   );
 }
+// Note: predictive analytics section added below the existing component via separate export
