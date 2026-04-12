@@ -193,7 +193,6 @@ export default function Plans() {
         setTimeout(() => navigate('/dashboard'), 2500);
         return;
       }
-      };
 
       const rzp = new window.Razorpay(options);
       rzp.on('payment.failed', (r) => alert(`Payment failed: ${r.error.description}`));
