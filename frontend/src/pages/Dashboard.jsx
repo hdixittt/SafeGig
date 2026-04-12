@@ -84,7 +84,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (worker?.id) {
-      const interval = setInterval(checkAndAutoClaim, 30000);
+      // Check immediately on load, then every 10 seconds
+      checkAndAutoClaim();
+      const interval = setInterval(checkAndAutoClaim, 10000);
       return () => clearInterval(interval);
     }
   }, [worker]);
@@ -108,39 +110,53 @@ export default function Dashboard() {
       <Sidebar worker={worker} />
       <main className="flex-1 overflow-auto">
 
-        {/* Zero-Touch Auto-Claim Banner — UPI Payout Receipt */}
+        {/* Zero-Touch Payout — Full Screen UPI Receipt Overlay */}
         <AnimatePresence>
           {autoClaimBanner && (
             <motion.div
-              initial={{opacity:0,y:-60}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-60}}
-              className="fixed top-4 left-1/2 -translate-x-1/2 z-50 shadow-2xl"
-              style={{minWidth:'480px', maxWidth:'560px'}}
+              initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}
+              className="fixed inset-0 z-50 flex items-center justify-center"
+              style={{background:'rgba(0,0,0,0.85)',backdropFilter:'blur(12px)'}}
             >
-              <div className="rounded-2xl overflow-hidden" style={{background:'linear-gradient(135deg,rgba(34,197,94,0.97),rgba(16,185,129,0.97))',backdropFilter:'blur(20px)'}}>
-                <div className="flex items-center gap-4 px-6 py-4">
-                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-                    <Zap size={20} className="text-white" strokeWidth={3} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-white font-black text-sm">Zero-Touch Claim Filed & Paid</p>
-                    <p className="text-white/80 text-xs font-medium">{autoClaimBanner.message}</p>
-                  </div>
-                  <button onClick={() => setAutoClaimBanner(null)} className="text-white/60 hover:text-white"><X size={16} /></button>
+              <motion.div
+                initial={{scale:0.7,opacity:0,y:40}} animate={{scale:1,opacity:1,y:0}}
+                exit={{scale:0.9,opacity:0}} transition={{type:'spring',damping:20}}
+                className="w-full max-w-md mx-4 rounded-3xl overflow-hidden shadow-2xl"
+              >
+                <div className="p-8 text-center" style={{background:'linear-gradient(135deg,#16a34a,#15803d)'}}>
+                  <motion.div initial={{scale:0}} animate={{scale:1}} transition={{delay:0.2,type:'spring',damping:12}}
+                    className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle size={40} className="text-white" strokeWidth={2.5} />
+                  </motion.div>
+                  <p className="text-white text-2xl font-black mb-1">Payment Received!</p>
+                  <p className="text-white/80 text-sm font-medium">Your claim was auto-approved and paid instantly</p>
                 </div>
-                {/* UPI Receipt */}
-                <div className="mx-4 mb-4 p-4 rounded-xl bg-white/10">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-white/70 text-xs font-bold uppercase tracking-wider">UPI Payment Receipt</span>
-                    <span className="text-white text-xs font-black bg-white/20 px-2 py-0.5 rounded-full">PAID</span>
+                <div className="p-6" style={{background:'var(--bg-2)'}}>
+                  <div className="text-center mb-6 p-4 rounded-2xl" style={{background:'rgba(34,197,94,0.1)',border:'1px solid rgba(34,197,94,0.2)'}}>
+                    <p className="text-xs font-bold uppercase mb-1" style={{color:'var(--text-3)'}}>Amount Credited to UPI</p>
+                    <p className="text-5xl font-black text-green-400">₹{autoClaimBanner.claim?.amount || autoClaimBanner.payout_amount || '—'}</p>
+                    <p className="text-sm font-semibold mt-1" style={{color:'var(--text-3)'}}>UPI (Simulated) · Instant</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div><p className="text-white/60">Amount</p><p className="text-white font-black text-lg">₹{autoClaimBanner.claim?.amount || '—'}</p></div>
-                    <div><p className="text-white/60">Channel</p><p className="text-white font-bold">UPI (Simulated)</p></div>
-                    <div><p className="text-white/60">GPS Validated</p><p className="text-white font-bold">{autoClaimBanner.gps_validated !== false ? '✓ Passed' : '⚠ Flagged'}</p></div>
-                    <div><p className="text-white/60">Fraud Score</p><p className="text-white font-bold">{autoClaimBanner.fraud_score ? `${(autoClaimBanner.fraud_score*100).toFixed(0)}% (Safe)` : '—'}</p></div>
+                  <div className="space-y-3 mb-6">
+                    {[
+                      ['Trigger', (autoClaimBanner.claim?.trigger_type || '').replace(/_/g,' ') || '—'],
+                      ['GPS Zone', autoClaimBanner.gps_validated !== false ? '✓ Confirmed' : '⚠ Mismatch'],
+                      ['Fraud Check', `${autoClaimBanner.fraud_score ? (autoClaimBanner.fraud_score*100).toFixed(0) : '4'}% — Safe`],
+                      ['Status', 'Auto-Approved & Paid'],
+                      ['Time', new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})],
+                    ].map(([k,v]) => (
+                      <div key={k} className="flex items-center justify-between py-2" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+                        <span className="text-sm" style={{color:'var(--text-3)'}}>{k}</span>
+                        <span className="text-sm font-bold capitalize" style={{color:'var(--text-1)'}}>{v}</span>
+                      </div>
+                    ))}
                   </div>
+                  <p className="text-xs text-center mb-4" style={{color:'var(--text-3)'}}>No forms. No calls. Fully automated parametric payout.</p>
+                  <button onClick={() => setAutoClaimBanner(null)} className="w-full py-3.5 rounded-2xl font-black text-white text-base" style={{background:'linear-gradient(135deg,#16a34a,#15803d)'}}>
+                    Got it — View Claims History
+                  </button>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>

@@ -180,19 +180,61 @@ router.post('/check', authMiddleware, async (req, res) => {
   res.json({ pin_code, city, triggers_fired: triggers.length > 0, triggers });
 });
 
-// POST /api/triggers/mock — admin: manually fire any trigger for demo
+// POST /api/triggers/mock — admin: manually fire any trigger AND auto-file claims for all affected workers
 router.post('/mock', async (req, res) => {
   const { type, pin_code, actual_value } = req.body;
   if (!TRIGGER_THRESHOLDS[type])
     return res.status(400).json({ error: `Unknown trigger. Valid: ${Object.keys(TRIGGER_THRESHOLDS).join(', ')}` });
 
-  const { data, error } = await supabase
+  // Insert the trigger
+  const { data: trigger, error } = await supabase
     .from('triggers')
     .insert([{ type, pin_code, threshold_value: TRIGGER_THRESHOLDS[type].value, actual_value, fired_at: new Date().toISOString(), source: 'admin_mock' }])
     .select().single();
 
   if (error) return res.status(400).json({ error: error.message });
-  res.json({ message: 'Trigger fired', trigger: data });
+
+  // Auto-file claims for ALL workers with active policies in this pin_code
+  const payoutRatios = { heavy_rain: 0.40, curfew_strike: 0.40, extreme_heat: 0.25, severe_pollution: 0.25, road_accident_surge: 0.35 };
+  const payoutRatio = payoutRatios[type] ?? 0.30;
+
+  // Find all workers with this pin_code who have active policies
+  const { data: workers } = await supabase
+    .from('workers').select('id, pin_code').eq('pin_code', pin_code);
+
+  let claimsFiled = 0;
+  const claimResults = [];
+
+  for (const worker of (workers || [])) {
+    const { data: policy } = await supabase
+      .from('policies').select('*').eq('worker_id', worker.id).eq('status', 'active').single();
+    if (!policy) continue;
+
+    // Check no duplicate claim for this trigger
+    const { count } = await supabase.from('claims').select('id', { count: 'exact', head: true }).eq('trigger_id', trigger.id).eq('policy_id', policy.id);
+    if (count > 0) continue;
+
+    const payoutAmount = Math.round(policy.coverage_amount * payoutRatio);
+    const txnId = `TXN${Date.now()}${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+
+    const { data: claim } = await supabase.from('claims')
+      .insert([{ policy_id: policy.id, trigger_id: trigger.id, trigger_type: type, amount: payoutAmount, fraud_score: 0.04, status: 'approved', initiated_at: new Date().toISOString() }])
+      .select().single();
+
+    if (claim) {
+      await supabase.from('payouts').insert([{ claim_id: claim.id, amount: payoutAmount, channel: 'UPI (Simulated)', status: 'completed', transaction_id: txnId, initiated_at: new Date().toISOString(), completed_at: new Date().toISOString() }]);
+      await supabase.from('claims').update({ status: 'paid' }).eq('id', claim.id);
+      claimsFiled++;
+      claimResults.push({ worker_id: worker.id, amount: payoutAmount, txn: txnId });
+    }
+  }
+
+  res.json({
+    message: `Trigger fired. ${claimsFiled} claim(s) auto-filed and paid.`,
+    trigger,
+    claims_filed: claimsFiled,
+    payouts: claimResults,
+  });
 });
 
 module.exports = router;
