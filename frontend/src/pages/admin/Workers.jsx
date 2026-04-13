@@ -86,7 +86,7 @@ export default function Workers() {
                 className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white" style={{background:'linear-gradient(135deg,#f97316,#ea580c)'}}>{w.name[0]}</div>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>{w.name[0]}</div>
                     <div><p className="font-semibold" style={{color:'var(--text-1)'}}>{w.name}</p><p className="text-xs" style={{color:'var(--text-3)'}}>{w.phone}</p></div>
                   </div>
                 </td>
@@ -117,7 +117,7 @@ export default function Workers() {
           <motion.div initial={{scale:0.9,opacity:0}} animate={{scale:1,opacity:1}} onClick={e=>e.stopPropagation()}
             className="glass-card-strong p-8 rounded-3xl w-full max-w-md">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black text-white" style={{background:'linear-gradient(135deg,#f97316,#ea580c)'}}>{selected.name[0]}</div>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>{selected.name[0]}</div>
               <div><h3 className="text-xl font-black" style={{color:'var(--text-1)'}}>{selected.name}</h3><p style={{color:'var(--text-3)'}}>{selected.phone}</p></div>
             </div>
             {[['City',selected.city],['Platform',selected.platform],['PIN Code',selected.pin_code],['Weekly Hours',`${selected.weekly_hours}h`],['Risk Tier',selected.risk_tier||'Standard'],['Member Since',new Date(selected.created_at).toLocaleDateString('en-IN')]].map(([k,v])=>(
@@ -126,7 +126,7 @@ export default function Workers() {
                 <span className="text-sm font-bold" style={{color:'var(--text-1)'}}>{v}</span>
               </div>
             ))}
-            <button onClick={()=>setSelected(null)} className="mt-6 w-full py-3 rounded-xl font-bold text-white" style={{background:'linear-gradient(135deg,#f97316,#ea580c)'}}>Close</button>
+            <button onClick={()=>setSelected(null)} className="mt-6 w-full py-3 rounded-xl font-bold text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>Close</button>
           </motion.div>
         </div>
       )}

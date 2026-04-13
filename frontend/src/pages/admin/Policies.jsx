@@ -32,7 +32,7 @@ export default function Policies() {
             {['all','active','expired','cancelled'].map(s => (
               <button key={s} onClick={()=>setFilter(s)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold capitalize transition-all ${filter===s?'text-white':'hover:bg-white/5'}`}
-                style={filter===s?{background:'linear-gradient(135deg,#f97316,#ea580c)'}:{color:'var(--text-3)'}}>
+                style={filter===s?{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}:{color:'var(--text-3)'}}>
                 {s}
               </button>
             ))}
@@ -60,12 +60,12 @@ export default function Policies() {
                   className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
                   <td className="px-5 py-3.5 font-semibold" style={{color:'var(--text-1)'}}>{p.worker_name||'—'}</td>
                   <td className="px-5 py-3.5" style={{color:'var(--text-2)'}}>{p.city||'—'}</td>
-                  <td className="px-5 py-3.5 font-bold text-orange-400">₹{p.premium_paid}</td>
+                  <td className="px-5 py-3.5 font-bold text-yellow-400">₹{p.premium_paid}</td>
                   <td className="px-5 py-3.5 font-bold text-green-400">₹{p.coverage_amount}</td>
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2">
-                      <div className="h-1.5 w-16 rounded-full bg-white/10 overflow-hidden"><div className="h-full rounded-full bg-orange-400" style={{width:`${(p.risk_score||0)*100}%`}} /></div>
-                      <span className="text-xs font-bold text-orange-400">{((p.risk_score||0)*100).toFixed(0)}%</span>
+                      <div className="h-1.5 w-16 rounded-full bg-white/10 overflow-hidden"><div className="h-full rounded-full bg-yellow-400" style={{width:`${(p.risk_score||0)*100}%`}} /></div>
+                      <span className="text-xs font-bold text-yellow-400">{((p.risk_score||0)*100).toFixed(0)}%</span>
                     </div>
                   </td>
                   <td className="px-5 py-3.5 text-xs" style={{color:'var(--text-3)'}}>

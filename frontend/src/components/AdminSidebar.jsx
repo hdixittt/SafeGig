@@ -37,7 +37,7 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
     >
       <div className="px-5 py-5 flex items-center gap-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: 'linear-gradient(135deg, #ef4444, #f97316)' }}>
+          style={{ background: 'linear-gradient(135deg, #ef4444, #FFCE32)' }}>
           <ShieldCheck size={18} className="text-white" strokeWidth={2.5} />
         </div>
         <span className="font-black text-lg tracking-tight" style={{ color: 'var(--text-1)' }}>SafeGig</span>
@@ -51,7 +51,7 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
         style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black text-white"
-            style={{ background: 'linear-gradient(135deg, #ef4444, #f97316)' }}>A</div>
+            style={{ background: 'linear-gradient(135deg, #ef4444, #FFCE32)' }}>A</div>
           <div>
             <p className="text-sm font-bold" style={{ color: 'var(--text-1)' }}>Admin</p>
             <p className="text-xs" style={{ color: 'rgba(239,68,68,0.8)' }}>admin@safegig.demo</p>

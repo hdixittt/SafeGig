@@ -77,7 +77,7 @@ export default function Payouts() {
                     </td>
                     <td className="px-5 py-3.5 text-xs" style={{color:'var(--text-3)'}}>{new Date(p.initiated_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
                     <td className="px-5 py-3.5">
-                      {p.status==='failed' && <button className="flex items-center gap-1 text-xs font-bold text-orange-400 hover:text-orange-300"><RefreshCw size={12} />Retry</button>}
+                      {p.status==='failed' && <button className="flex items-center gap-1 text-xs font-bold text-yellow-400 hover:text-yellow-300"><RefreshCw size={12} />Retry</button>}
                     </td>
                   </motion.tr>
                 );

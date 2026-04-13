@@ -94,7 +94,7 @@ export default function Dashboard() {
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center" style={{background:'var(--bg)'}}>
       <div className="flex flex-col items-center gap-4">
-        <div className="w-16 h-16 border-4 border-orange-500/20 border-t-orange-500 rounded-full animate-spin" />
+        <div className="w-16 h-16 border-4 border-yellow-400/20 border-t-orange-500 rounded-full animate-spin" />
         <p className="text-gray-400 text-lg font-semibold">Loading your dashboard...</p>
       </div>
     </div>
@@ -168,17 +168,17 @@ export default function Dashboard() {
               Welcome back, {worker?.name?.split(' ')[0]} 👋
             </motion.h1>
             <div className="flex items-center gap-4 text-sm font-medium" style={{color:'var(--text-2)'}}>
-              <span className="flex items-center gap-2"><MapPin size={14} className="text-orange-400" />{worker?.city}</span>
+              <span className="flex items-center gap-2"><MapPin size={14} className="text-yellow-400" />{worker?.city}</span>
               <span>•</span><span>{worker?.platform}</span>
               <span>•</span>
-              <span className="flex items-center gap-2"><Clock size={14} className="text-orange-400" />{worker?.weekly_hours}h/week</span>
+              <span className="flex items-center gap-2"><Clock size={14} className="text-yellow-400" />{worker?.weekly_hours}h/week</span>
             </div>
           </div>
           {!activePolicy && (
             <motion.button initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}}
               onClick={activatePolicy}
               className="flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-base text-white shadow-2xl transition-all hover:scale-105"
-              style={{background:'linear-gradient(135deg,#f97316,#ea580c)'}}>
+              style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>
               <Plus size={20} strokeWidth={3} />
               Activate Policy
             </motion.button>
@@ -188,7 +188,7 @@ export default function Dashboard() {
         <div className="p-10 space-y-8 max-w-[1800px]">
           {/* Stats */}
           <div className="grid grid-cols-4 gap-6">
-            <StatCard label="Risk Score"     value={`${riskScore}%`}                          icon={TrendingUp}  color="#f97316" delay={0}   sub={riskProfile?.tier + ' tier'} trend={-5} />
+            <StatCard label="Risk Score"     value={`${riskScore}%`}                          icon={TrendingUp}  color="#FFCE32" delay={0}   sub={riskProfile?.tier + ' tier'} trend={-5} />
             <StatCard label="Weekly Premium" value={riskProfile ? `₹${riskProfile.premium}` : '—'} icon={IndianRupee} color="#3b82f6" delay={0.1} sub="Dynamic ML pricing" />
             <StatCard label="Earnings Protected" value={activePolicy ? `₹${activePolicy.coverage_amount}` : '—'} icon={Shield} color="#22c55e" delay={0.2} sub={activePolicy ? 'This week' : 'No active policy'} />
             <StatCard label="Total Paid Out"   value={`₹${totalPaid}`}                        icon={FileText}    color="#8b5cf6" delay={0.3} sub={`${totalClaims} claims filed`} trend={totalClaims > 0 ? 12 : 0} />
@@ -217,7 +217,7 @@ export default function Dashboard() {
                 <div className="relative w-48 h-48">
                   <ResponsiveContainer width="100%" height="100%">
                     <RadialBarChart cx="50%" cy="50%" innerRadius="70%" outerRadius="100%" data={[{value:riskScore}]} startAngle={90} endAngle={-270}>
-                      <RadialBar dataKey="value" fill="#f97316" background={{fill:'rgba(255,255,255,0.05)'}} cornerRadius={10} />
+                      <RadialBar dataKey="value" fill="#FFCE32" background={{fill:'rgba(255,255,255,0.05)'}} cornerRadius={10} />
                     </RadialBarChart>
                   </ResponsiveContainer>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -229,7 +229,7 @@ export default function Dashboard() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-4 rounded-xl" style={{background:'var(--bg-2)'}}>
                   <span className="text-sm font-semibold" style={{color:'var(--text-2)'}}>Weekly Premium</span>
-                  <span className="text-lg font-black text-orange-400">₹{riskProfile?.premium}</span>
+                  <span className="text-lg font-black text-yellow-400">₹{riskProfile?.premium}</span>
                 </div>
                 <div className="flex items-center justify-between p-4 rounded-xl" style={{background:'var(--bg-2)'}}>
                   <span className="text-sm font-semibold" style={{color:'var(--text-2)'}}>Coverage</span>
@@ -276,7 +276,7 @@ export default function Dashboard() {
                     </div>
                     <div className="p-5 rounded-xl" style={{background:'var(--bg-2)'}}>
                       <p className="text-xs font-bold uppercase mb-2" style={{color:'var(--text-3)'}}>Risk Score</p>
-                      <p className="text-2xl font-black text-orange-400">{(activePolicy.risk_score*100).toFixed(0)}%</p>
+                      <p className="text-2xl font-black text-yellow-400">{(activePolicy.risk_score*100).toFixed(0)}%</p>
                     </div>
                     <div className="p-5 rounded-xl" style={{background:'var(--bg-2)'}}>
                       <p className="text-xs font-bold uppercase mb-2" style={{color:'var(--text-3)'}}>Period</p>
@@ -306,7 +306,7 @@ export default function Dashboard() {
                   <p className="text-xl font-bold mb-2" style={{color:'var(--text-2)'}}>No Active Policy</p>
                   <p className="text-sm mb-6" style={{color:'var(--text-3)'}}>Activate to get covered and enable zero-touch claims</p>
                   <button onClick={activatePolicy}
-                    className="px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-105 transition-transform">
+                    className="px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-yellow-400 to-prussian-DEFAULT hover:scale-105 transition-transform">
                     View Plans
                   </button>
                 </div>
@@ -323,7 +323,7 @@ export default function Dashboard() {
                   <AreaChart data={mockCoverageData}>
                     <defs>
                       <linearGradient id="cg1" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#f97316" stopOpacity={0.3} /><stop offset="95%" stopColor="#f97316" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#FFCE32" stopOpacity={0.3} /><stop offset="95%" stopColor="#FFCE32" stopOpacity={0} />
                       </linearGradient>
                       <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} /><stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
@@ -332,7 +332,7 @@ export default function Dashboard() {
                     <XAxis dataKey="week" stroke="rgba(255,255,255,0.2)" tick={{fill:'#9ca3af',fontSize:12}} />
                     <YAxis stroke="rgba(255,255,255,0.2)" tick={{fill:'#9ca3af',fontSize:12}} />
                     <Tooltip contentStyle={{background:'rgba(0,0,0,0.9)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'12px',color:'#fff'}} />
-                    <Area type="monotone" dataKey="coverage" stroke="#f97316" strokeWidth={3} fill="url(#cg1)" />
+                    <Area type="monotone" dataKey="coverage" stroke="#FFCE32" strokeWidth={3} fill="url(#cg1)" />
                     <Area type="monotone" dataKey="claims" stroke="#ef4444" strokeWidth={3} fill="url(#cg2)" />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -361,7 +361,7 @@ export default function Dashboard() {
                 <p className="text-sm font-medium" style={{color:'var(--text-2)'}}>Auto-generated on trigger events. Zero forms required.</p>
               </div>
               {totalClaims > 0 && (
-                <div className="px-4 py-2 rounded-full bg-orange-500/15 text-orange-400 font-black text-sm">
+                <div className="px-4 py-2 rounded-full bg-yellow-400/15 text-yellow-400 font-black text-sm">
                   {totalClaims} claims
                 </div>
               )}

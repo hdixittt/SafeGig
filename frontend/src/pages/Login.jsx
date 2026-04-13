@@ -29,9 +29,9 @@ export default function Login() {
       {/* Animated background blurs */}
       <div className="absolute inset-0 opacity-30 glow-blob">
         <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full blur-[120px]"
-          style={{ background: 'radial-gradient(circle, #f97316 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, #FFCE32 0%, transparent 70%)' }} />
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full blur-[100px]"
-          style={{ background: 'radial-gradient(circle, #ea580c 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, #1D63FF 0%, transparent 70%)' }} />
       </div>
 
       <div className="absolute top-6 right-6 z-50">
@@ -48,12 +48,12 @@ export default function Login() {
         >
           <div className="flex items-center gap-4 mb-20">
             <div className="w-16 h-16 rounded-3xl flex items-center justify-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600" />
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-prussian-DEFAULT" />
               <Shield size={32} className="text-white relative z-10" strokeWidth={2.5} />
             </div>
             <div>
               <h1 className="text-3xl font-black tracking-tight" style={{ color: 'var(--text-1)' }}>SafeGig</h1>
-              <p className="text-sm font-bold text-orange-500 uppercase tracking-widest">Worker Portal</p>
+              <p className="text-sm font-bold text-yellow-500 uppercase tracking-widest">Worker Portal</p>
             </div>
           </div>
 
@@ -81,9 +81,9 @@ export default function Login() {
 
           <div className="space-y-4">
             {[
-              { icon: Zap,      label: 'Instant Payouts', value: '< 2 min',  color: '#f97316' },
-              { icon: Shield,   label: 'Max Coverage',    value: '₹3,500',   color: '#fb923c' },
-              { icon: Sparkles, label: 'Starting From',   value: '₹29/week', color: '#fdba74' },
+              { icon: Zap,      label: 'Instant Payouts', value: '< 2 min',  color: '#FFCE32' },
+              { icon: Shield,   label: 'Max Coverage',    value: '₹3,500',   color: '#FFCE32' },
+              { icon: Sparkles, label: 'Starting From',   value: '₹29/week', color: '#FFE080' },
             ].map(({ icon: Icon, label, value, color }, i) => (
               <motion.div
                 key={label}
@@ -117,7 +117,7 @@ export default function Login() {
           <div className="glass-card-strong p-12">
             <div className="mb-10">
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-yellow-400 to-prussian-DEFAULT">
                   <Shield size={24} className="text-white" strokeWidth={2.5} />
                 </div>
                 <div>
@@ -191,7 +191,7 @@ export default function Login() {
             <div className="mt-10 pt-8 space-y-4 text-center" style={{ borderTop: '1px solid var(--border)' }}>
               <p className="text-sm" style={{ color: 'var(--text-2)' }}>
                 New to SafeGig?{' '}
-                <Link to="/register" className="font-bold text-orange-400 hover:text-orange-300 transition-colors">
+                <Link to="/register" className="font-bold text-yellow-400 hover:text-yellow-300 transition-colors">
                   Create account
                 </Link>
               </p>
@@ -211,7 +211,7 @@ export default function Login() {
             className="mt-8 text-center"
           >
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
-              <Sparkles size={16} className="text-orange-400" />
+              <Sparkles size={16} className="text-yellow-400" />
               <span className="text-sm font-semibold" style={{ color: 'var(--text-2)' }}>
                 Trusted by 10M+ gig workers
               </span>

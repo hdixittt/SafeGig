@@ -5,7 +5,7 @@ import api from '../api';
 
 const TRIGGER_CONFIG = {
   heavy_rain:          { icon: CloudRain,      color: '#3b82f6', label: 'Heavy Rain',         unit: 'mm/hr',  threshold: 50  },
-  extreme_heat:        { icon: Thermometer,    color: '#f97316', label: 'Extreme Heat',        unit: '°C',     threshold: 42  },
+  extreme_heat:        { icon: Thermometer,    color: '#FFCE32', label: 'Extreme Heat',        unit: '°C',     threshold: 42  },
   severe_pollution:    { icon: Wind,           color: '#8b5cf6', label: 'Severe Pollution',    unit: 'AQI',    threshold: 300 },
   curfew_strike:       { icon: AlertOctagon,   color: '#ef4444', label: 'Curfew / Strike',     unit: 'active', threshold: 1   },
   road_accident_surge: { icon: AlertTriangle,  color: '#f59e0b', label: 'Accident Surge',      unit: '/hr',    threshold: 5   },
@@ -103,7 +103,7 @@ export default function LiveConditions({ city }) {
           Rain: {cond.rain_mm_hr ?? '--'} mm/hr
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'var(--bg-2)', color: 'var(--text-2)' }}>
-          <Thermometer size={13} className="text-orange-400" />
+          <Thermometer size={13} className="text-yellow-400" />
           Temp: {cond.temperature_c ?? '--'}°C
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold" style={{ background: 'var(--bg-2)', color: 'var(--text-2)' }}>

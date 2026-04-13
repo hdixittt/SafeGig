@@ -98,13 +98,13 @@ export default function Overview() {
         <SC label="Pending Claims"  value={stats.claims}   icon={AlertTriangle} color="#f59e0b" delay={0.1}  sub="Awaiting review" />
         <SC label="Fraud Flags"     value={stats.fraud}    icon={ShieldAlert}  color="#ef4444" delay={0.15} sub="Under review" />
         <SC label="Total Payouts"   value={`₹${(stats.payouts||0).toLocaleString()}`} icon={IndianRupee} color="#8b5cf6" delay={0.2} sub="All time" />
-        <SC label="Triggers"        value={claimChart.reduce((s,d)=>s+d.claims,0)} icon={Zap} color="#f97316" delay={0.25} sub="This week" />
+        <SC label="Triggers"        value={claimChart.reduce((s,d)=>s+d.claims,0)} icon={Zap} color="#FFCE32" delay={0.25} sub="This week" />
       </div>
 
       <div className="grid grid-cols-3 gap-5">
         <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:0.3}} className="glass-card-strong p-6">
-          <div className="flex items-center gap-2 mb-4"><TrendingUp size={15} style={{color:'#f97316'}} /><p className="text-sm font-bold" style={{color:'var(--text-1)'}}>Weekly Payouts (₹)</p></div>
-          <div className="h-40"><ResponsiveContainer width="100%" height="100%"><BarChart data={payoutChart} barSize={12}><XAxis dataKey="day" tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} /><YAxis tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} /><Tooltip contentStyle={TT} cursor={{fill:'rgba(255,255,255,0.04)'}} /><Bar dataKey="amount" fill="#f97316" radius={[4,4,0,0]} /></BarChart></ResponsiveContainer></div>
+          <div className="flex items-center gap-2 mb-4"><TrendingUp size={15} style={{color:'#FFCE32'}} /><p className="text-sm font-bold" style={{color:'var(--text-1)'}}>Weekly Payouts (₹)</p></div>
+          <div className="h-40"><ResponsiveContainer width="100%" height="100%"><BarChart data={payoutChart} barSize={12}><XAxis dataKey="day" tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} /><YAxis tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} /><Tooltip contentStyle={TT} cursor={{fill:'rgba(255,255,255,0.04)'}} /><Bar dataKey="amount" fill="#FFCE32" radius={[4,4,0,0]} /></BarChart></ResponsiveContainer></div>
         </motion.div>
 
         <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:0.35}} className="glass-card-strong p-6">

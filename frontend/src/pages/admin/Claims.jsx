@@ -11,7 +11,7 @@ const STATUS_CFG = {
 };
 const TRIGGER_META = {
   heavy_rain:          { icon:CloudRain,     color:'#3b82f6', label:'Heavy Rain'       },
-  extreme_heat:        { icon:Thermometer,   color:'#f97316', label:'Extreme Heat'     },
+  extreme_heat:        { icon:Thermometer,   color:'#FFCE32', label:'Extreme Heat'     },
   severe_pollution:    { icon:Wind,          color:'#8b5cf6', label:'Severe Pollution' },
   curfew_strike:       { icon:AlertOctagon,  color:'#ef4444', label:'Curfew/Strike'    },
   road_accident_surge: { icon:AlertTriangle, color:'#f59e0b', label:'Accident Surge'   },
@@ -45,7 +45,7 @@ export default function Claims() {
             {['all','manual_review','approved','paid','rejected'].map(s => (
               <button key={s} onClick={()=>setFilter(s)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize transition-all ${filter===s?'text-white':'hover:bg-white/5'}`}
-                style={filter===s?{background:'linear-gradient(135deg,#f97316,#ea580c)'}:{color:'var(--text-3)'}}>
+                style={filter===s?{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}:{color:'var(--text-3)'}}>
                 {s.replace('_',' ')}
               </button>
             ))}
@@ -117,7 +117,7 @@ export default function Claims() {
                 <span className="text-sm font-bold" style={{color:'var(--text-1)'}}>{v}</span>
               </div>
             ))}
-            <button onClick={()=>setDetail(null)} className="mt-6 w-full py-3 rounded-xl font-bold text-white" style={{background:'linear-gradient(135deg,#f97316,#ea580c)'}}>Close</button>
+            <button onClick={()=>setDetail(null)} className="mt-6 w-full py-3 rounded-xl font-bold text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>Close</button>
           </motion.div>
         </div>
       )}

@@ -11,7 +11,7 @@ const STATUS = {
 
 const TRIGGER_META = {
   heavy_rain:          { icon: CloudRain,     label: 'Heavy Rain',        color: '#3b82f6' },
-  extreme_heat:        { icon: Thermometer,   label: 'Extreme Heat',      color: '#f97316' },
+  extreme_heat:        { icon: Thermometer,   label: 'Extreme Heat',      color: '#FFCE32' },
   severe_pollution:    { icon: Wind,          label: 'Severe Pollution',  color: '#8b5cf6' },
   curfew_strike:       { icon: AlertOctagon,  label: 'Curfew / Strike',   color: '#ef4444' },
   road_accident_surge: { icon: AlertTriangle, label: 'Accident Surge',    color: '#f59e0b' },

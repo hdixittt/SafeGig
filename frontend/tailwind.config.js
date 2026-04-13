@@ -4,7 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: { DEFAULT: '#F97316', dark: '#EA580C', light: '#FB923C' },
+        brand: { DEFAULT: '#FFCE32', dark: '#1D63FF', light: '#FFE080' },
+        yellow: { DEFAULT: '#FFCE32', light: '#FFE080', dark: '#E6B800' },
+        prussian: { DEFAULT: '#1D63FF', dark: '#1450CC', light: '#4D85FF' },
         dark: {
           900: '#0a0a0f',
           800: '#0f0f1a',

@@ -8,7 +8,7 @@ const TRIGGERS = [
   { type:'extreme_heat',        icon:Thermometer,   color:'#ef4444', label:'Extreme Heat',       unit:'°C',    threshold:42  },
   { type:'severe_pollution',    icon:Wind,          color:'#8b5cf6', label:'Severe Pollution',   unit:'AQI',   threshold:300 },
   { type:'curfew_strike',       icon:AlertOctagon,  color:'#f59e0b', label:'Curfew / Strike',    unit:'flag',  threshold:1   },
-  { type:'road_accident_surge', icon:AlertTriangle, color:'#f97316', label:'Accident Surge',     unit:'/hr',   threshold:5   },
+  { type:'road_accident_surge', icon:AlertTriangle, color:'#FFCE32', label:'Accident Surge',     unit:'/hr',   threshold:5   },
 ];
 
 const CITIES = ['Gurgaon','Delhi','Mumbai','Chennai','Kolkata','Bangalore'];
@@ -97,7 +97,7 @@ export default function TriggerMonitor() {
 
       <div className="grid grid-cols-2 gap-5">
         <div className="glass-card-strong p-6 rounded-2xl">
-          <div className="flex items-center gap-2 mb-5"><Zap size={16} style={{color:'#f97316'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Manual Fire Trigger</h3></div>
+          <div className="flex items-center gap-2 mb-5"><Zap size={16} style={{color:'#FFCE32'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Manual Fire Trigger</h3></div>
           <div className="grid grid-cols-2 gap-2 mb-4">
             {TRIGGERS.map(t => {
               const Icon = t.icon;

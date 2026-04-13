@@ -11,7 +11,7 @@ const TRIGGER_ICONS = {
   severe_pollution: Wind, curfew_strike: AlertOctagon, road_accident_surge: AlertTriangle,
 };
 const TRIGGER_COLORS = {
-  heavy_rain:'#3b82f6', extreme_heat:'#f97316', severe_pollution:'#8b5cf6',
+  heavy_rain:'#3b82f6', extreme_heat:'#FFCE32', severe_pollution:'#8b5cf6',
   curfew_strike:'#ef4444', road_accident_surge:'#f59e0b',
 };
 
@@ -31,7 +31,7 @@ export default function Analytics() {
 
   if (loading || !data) return (
     <div className="flex items-center justify-center h-64">
-      <div className="w-10 h-10 border-4 border-orange-500/20 border-t-orange-500 rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-yellow-400/20 border-t-orange-500 rounded-full animate-spin" />
     </div>
   );
 
@@ -68,7 +68,7 @@ export default function Analytics() {
       {/* Weekly Trend */}
       <div className="grid grid-cols-2 gap-5">
         <div className="glass-card-strong p-6 rounded-2xl">
-          <div className="flex items-center gap-2 mb-4"><TrendingUp size={15} style={{color:'#f97316'}} /><h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Premium vs Payout Trend</h3></div>
+          <div className="flex items-center gap-2 mb-4"><TrendingUp size={15} style={{color:'#FFCE32'}} /><h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Premium vs Payout Trend</h3></div>
           <div className="h-48"><ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data.weekly_trend}>
               <defs>
@@ -89,7 +89,7 @@ export default function Analytics() {
         </div>
 
         <div className="glass-card-strong p-6 rounded-2xl">
-          <div className="flex items-center gap-2 mb-4"><Zap size={15} style={{color:'#f97316'}} /><h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Claims by Trigger Type</h3></div>
+          <div className="flex items-center gap-2 mb-4"><Zap size={15} style={{color:'#FFCE32'}} /><h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Claims by Trigger Type</h3></div>
           {data.trigger_breakdown.length === 0 ? (
             <div className="flex items-center justify-center h-48 text-sm" style={{color:'var(--text-3)'}}>No claims yet</div>
           ) : (
@@ -98,7 +98,7 @@ export default function Analytics() {
                 <XAxis dataKey="type" tick={{fill:'rgba(255,255,255,0.4)',fontSize:9}} axisLine={false} tickLine={false} tickFormatter={v=>v.replace(/_/g,' ').slice(0,8)} />
                 <YAxis tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={TT} />
-                <Bar dataKey="count" fill="#f97316" radius={[4,4,0,0]} />
+                <Bar dataKey="count" fill="#FFCE32" radius={[4,4,0,0]} />
               </BarChart>
             </ResponsiveContainer></div>
           )}

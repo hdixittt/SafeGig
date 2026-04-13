@@ -45,7 +45,7 @@ export default function PricingEngine() {
         <div><h2 className="text-2xl font-black" style={{color:'var(--text-1)'}}>Dynamic Premium Engine</h2><p className="text-sm" style={{color:'var(--text-3)'}}>ML model pricing monitor — last re-priced: {lastReprice}</p></div>
         <button onClick={triggerReprice} disabled={repricing}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white transition-all hover:scale-105 disabled:opacity-60"
-          style={{background:'linear-gradient(135deg,#f97316,#ea580c)'}}>
+          style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>
           <RefreshCw size={14} className={repricing?'animate-spin':''} />
           {repricing ? 'Re-pricing...' : 'Trigger Re-price'}
         </button>
@@ -55,14 +55,14 @@ export default function PricingEngine() {
         <Signal icon={Droplets} label="Flood History"      value={0.72} color="#3b82f6" />
         <Signal icon={Wind}     label="AQI Signal"         value={0.65} color="#8b5cf6" />
         <Signal icon={Sun}      label="Seasonal Pattern"   value={0.48} color="#f59e0b" />
-        <Signal icon={Activity} label="Activity Multiplier" value={0.81} color="#f97316" />
+        <Signal icon={Activity} label="Activity Multiplier" value={0.81} color="#FFCE32" />
       </div>
 
       <div className="glass-card-strong rounded-2xl overflow-hidden">
         <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
-          <Cpu size={16} style={{color:'#f97316'}} />
+          <Cpu size={16} style={{color:'#FFCE32'}} />
           <h3 className="font-bold" style={{color:'var(--text-1)'}}>Zone Premium Heatmap</h3>
-          <span className="ml-auto text-xs px-3 py-1 rounded-full font-bold" style={{background:'rgba(249,115,22,0.1)',color:'#f97316'}}>Live Pricing</span>
+          <span className="ml-auto text-xs px-3 py-1 rounded-full font-bold" style={{background:'rgba(255,206,50,0.1)',color:'#FFCE32'}}>Live Pricing</span>
         </div>
         <table className="w-full text-sm">
           <thead><tr style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
@@ -81,12 +81,12 @@ export default function PricingEngine() {
                 {['flood','seasonal','activity'].map(k => (
                   <td key={k} className="px-5 py-3.5">
                     <div className="flex items-center gap-2">
-                      <div className="h-1.5 w-12 rounded-full bg-white/10 overflow-hidden"><div className="h-full rounded-full bg-orange-400" style={{width:`${z[k]*100}%`}} /></div>
+                      <div className="h-1.5 w-12 rounded-full bg-white/10 overflow-hidden"><div className="h-full rounded-full bg-yellow-400" style={{width:`${z[k]*100}%`}} /></div>
                       <span className="text-xs" style={{color:'var(--text-3)'}}>{(z[k]*100).toFixed(0)}%</span>
                     </div>
                   </td>
                 ))}
-                <td className="px-5 py-3.5 font-black text-orange-400">₹{z.premium}</td>
+                <td className="px-5 py-3.5 font-black text-yellow-400">₹{z.premium}</td>
                 <td className="px-5 py-3.5">
                   <span className="px-2.5 py-1 rounded-full text-xs font-bold" style={{background:`${TIER_COLOR[z.tier]}18`,color:TIER_COLOR[z.tier]}}>{z.tier}</span>
                 </td>

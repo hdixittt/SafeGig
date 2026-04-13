@@ -33,7 +33,7 @@ export default function AdminLogin() {
         <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full blur-[120px]"
           style={{ background: 'radial-gradient(circle, #ef4444 0%, transparent 70%)' }} />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full blur-[100px]"
-          style={{ background: 'radial-gradient(circle, #f97316 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, #FFCE32 0%, transparent 70%)' }} />
       </div>
 
       <div className="absolute top-6 right-6 z-50"><ThemeToggle /></div>
@@ -48,7 +48,7 @@ export default function AdminLogin() {
         >
           {/* Logo */}
           <div className="flex items-center gap-4 mb-20">
-            <div className="w-16 h-16 rounded-3xl flex items-center justify-center bg-gradient-to-br from-red-500 to-orange-600">
+            <div className="w-16 h-16 rounded-3xl flex items-center justify-center bg-gradient-to-br from-red-500 to-prussian-DEFAULT">
               <ShieldCheck size={32} className="text-white" strokeWidth={2.5} />
             </div>
             <div>
@@ -146,7 +146,7 @@ export default function AdminLogin() {
             <div className="mb-10">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg, #ef4444, #f97316)' }}>
+                  style={{ background: 'linear-gradient(135deg, #ef4444, #FFCE32)' }}>
                   <ShieldCheck size={24} className="text-white" strokeWidth={2.5} />
                 </div>
                 <div>
@@ -210,7 +210,7 @@ export default function AdminLogin() {
                 disabled={loading}
                 className="w-full flex items-center justify-center gap-3 rounded-2xl font-black text-lg text-white transition-all group"
                 style={{
-                  background: 'linear-gradient(135deg, #ef4444, #f97316)',
+                  background: 'linear-gradient(135deg, #ef4444, #FFCE32)',
                   padding: '18px 32px',
                   boxShadow: '0 8px 24px rgba(239,68,68,0.3)',
                   border: 'none',
@@ -235,7 +235,7 @@ export default function AdminLogin() {
             <div className="mt-10 pt-8 text-center" style={{ borderTop: '1px solid var(--border)' }}>
               <p className="text-sm" style={{ color: 'var(--text-2)' }}>
                 Worker login?{' '}
-                <Link to="/login" className="font-bold text-orange-400 hover:text-orange-300 transition-colors">
+                <Link to="/login" className="font-bold text-yellow-400 hover:text-yellow-300 transition-colors">
                   Go to worker portal →
                 </Link>
               </p>

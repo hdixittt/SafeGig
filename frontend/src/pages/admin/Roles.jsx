@@ -4,7 +4,7 @@ import { UserCog, Plus, Shield, Eye, Edit, Trash2 } from 'lucide-react';
 
 const ROLES = [
   { id:'r1', name:'Super Admin',   color:'#ef4444', perms:['All access','User management','System config','Audit log'] },
-  { id:'r2', name:'Ops Manager',   color:'#f97316', perms:['Workers','Policies','Triggers','Claims','Payouts'] },
+  { id:'r2', name:'Ops Manager',   color:'#FFCE32', perms:['Workers','Policies','Triggers','Claims','Payouts'] },
   { id:'r3', name:'Finance',       color:'#22c55e', perms:['Payouts','Reports','Premium Engine (read)'] },
   { id:'r4', name:'Fraud Analyst', color:'#8b5cf6', perms:['Claims','Fraud Console','Worker flags'] },
 ];
@@ -23,7 +23,7 @@ const AUDIT = [
   { user:'Fraud Analyst',action:'Escalated claim C-003 for investigation',  time:'Yesterday' },
 ];
 
-const ROLE_COLOR = { 'Super Admin':'#ef4444', 'Ops Manager':'#f97316', 'Finance':'#22c55e', 'Fraud Analyst':'#8b5cf6' };
+const ROLE_COLOR = { 'Super Admin':'#ef4444', 'Ops Manager':'#FFCE32', 'Finance':'#22c55e', 'Fraud Analyst':'#8b5cf6' };
 
 export default function Roles() {
   return (
@@ -46,8 +46,8 @@ export default function Roles() {
 
       <div className="glass-card-strong rounded-2xl overflow-hidden">
         <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
-          <UserCog size={15} style={{color:'#f97316'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Admin Users</h3>
-          <button className="ml-auto flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white" style={{background:'linear-gradient(135deg,#f97316,#ea580c)'}}>
+          <UserCog size={15} style={{color:'#FFCE32'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Admin Users</h3>
+          <button className="ml-auto flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>
             <Plus size={12} />Add User
           </button>
         </div>
@@ -94,7 +94,7 @@ export default function Roles() {
           {AUDIT.map((a,i) => (
             <div key={i} className="flex items-center justify-between p-3 rounded-xl text-sm" style={{background:'var(--bg-2)'}}>
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-orange-400" />
+                <div className="w-2 h-2 rounded-full bg-yellow-400" />
                 <span className="font-bold" style={{color:'var(--text-1)'}}>{a.user}</span>
                 <span style={{color:'var(--text-2)'}}>{a.action}</span>
               </div>

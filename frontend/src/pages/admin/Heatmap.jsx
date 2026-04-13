@@ -28,7 +28,7 @@ export default function Heatmap() {
           {[['risk','Risk Level'],['rain','Rainfall'],['aqi','AQI'],['temp','Temperature']].map(([k,l])=>(
             <button key={k} onClick={()=>setMetric(k)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${metric===k?'text-white':'hover:bg-white/5'}`}
-              style={metric===k?{background:'linear-gradient(135deg,#f97316,#ea580c)'}:{color:'var(--text-3)'}}>
+              style={metric===k?{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}:{color:'var(--text-3)'}}>
               {l}
             </button>
           ))}
@@ -37,7 +37,7 @@ export default function Heatmap() {
 
       {/* Visual grid heatmap */}
       <div className="glass-card-strong p-6 rounded-2xl">
-        <div className="flex items-center gap-2 mb-5"><Map size={16} style={{color:'#f97316'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>India Zone Overview</h3><span className="text-xs ml-auto" style={{color:'var(--text-3)'}}>Click a zone for details</span></div>
+        <div className="flex items-center gap-2 mb-5"><Map size={16} style={{color:'#FFCE32'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>India Zone Overview</h3><span className="text-xs ml-auto" style={{color:'var(--text-3)'}}>Click a zone for details</span></div>
         <div className="grid grid-cols-4 gap-3">
           {ZONES.map((z,i) => {
             const color = RISK_COLOR[z.risk];
@@ -68,7 +68,7 @@ export default function Heatmap() {
         <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} className="glass-card-strong p-6 rounded-2xl">
           <h3 className="font-black text-lg mb-4" style={{color:'var(--text-1)'}}>{selected.name} — Full Conditions</h3>
           <div className="grid grid-cols-4 gap-4">
-            {[['Workers Exposed',selected.workers,Users,'#3b82f6'],['Rainfall',`${selected.rain}mm/hr`,CloudRain,'#3b82f6'],['AQI',selected.aqi,Wind,'#8b5cf6'],['Temperature',`${selected.temp}°C`,Thermometer,'#f97316']].map(([l,v,Icon,c])=>(
+            {[['Workers Exposed',selected.workers,Users,'#3b82f6'],['Rainfall',`${selected.rain}mm/hr`,CloudRain,'#3b82f6'],['AQI',selected.aqi,Wind,'#8b5cf6'],['Temperature',`${selected.temp}°C`,Thermometer,'#FFCE32']].map(([l,v,Icon,c])=>(
               <div key={l} className="p-4 rounded-xl" style={{background:'var(--bg-2)'}}>
                 <div className="flex items-center gap-2 mb-2"><Icon size={13} style={{color:c}} /><span className="text-xs" style={{color:'var(--text-3)'}}>{l}</span></div>
                 <p className="text-xl font-black" style={{color:c}}>{v}</p>

@@ -41,7 +41,7 @@ export default function RiskCard({ profile }) {
 
         <div className="space-y-2.5">
           {[
-            { label:'Weekly Premium', value:`₹${profile.premium}`, color:'#f97316' },
+            { label:'Weekly Premium', value:`₹${profile.premium}`, color:'#FFCE32' },
             { label:'Coverage',       value:`₹${profile.coverage}`, color:'#22c55e' },
             { label:'City',           value:profile.city,           color:'#3b82f6' },
           ].map(({ label, value, color }) => (

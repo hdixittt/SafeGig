@@ -17,7 +17,7 @@ export default function PolicyCard({ policy }) {
         </div>
         <div className="text-right">
           <p className="text-xs text-gray-400">Premium paid</p>
-          <p className="text-xl font-bold text-orange-500">₹{policy.premium_paid}</p>
+          <p className="text-xl font-bold text-yellow-500">₹{policy.premium_paid}</p>
         </div>
       </div>
 

@@ -36,7 +36,7 @@ export default function MLHealth() {
       </div>
 
       <div className="grid grid-cols-4 gap-4">
-        {[['Accuracy','94.2%','#22c55e',CheckCircle],['AUC-ROC','0.91','#3b82f6',TrendingUp],['Precision','92.8%','#f97316',Activity],['Drift Score','0.06','#f59e0b',AlertTriangle]].map(([l,v,c,Icon])=>(
+        {[['Accuracy','94.2%','#22c55e',CheckCircle],['AUC-ROC','0.91','#3b82f6',TrendingUp],['Precision','92.8%','#FFCE32',Activity],['Drift Score','0.06','#f59e0b',AlertTriangle]].map(([l,v,c,Icon])=>(
           <div key={l} className="glass-card-strong p-5 rounded-2xl">
             <div className="flex items-center gap-2 mb-3"><Icon size={14} style={{color:c}} /><span className="text-xs font-bold uppercase" style={{color:'var(--text-3)'}}>{l}</span></div>
             <p className="text-3xl font-black" style={{color:c}}>{v}</p>

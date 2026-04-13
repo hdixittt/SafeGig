@@ -27,12 +27,12 @@ export default function Sidebar({ worker }) {
       {/* Logo */}
       <div className="px-6 py-8 border-b border-white/10">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600 shadow-xl">
+          <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-br from-yellow-400 to-prussian-DEFAULT shadow-xl">
             <Shield size={24} className="text-white" strokeWidth={2.5} />
           </div>
           <div>
             <span className="text-2xl font-black text-white block">SafeGig</span>
-            <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">Worker</span>
+            <span className="text-xs font-bold text-yellow-400 uppercase tracking-wider">Worker</span>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@ export default function Sidebar({ worker }) {
         <div className="px-6 py-6 border-b border-white/10">
           <div className="glass-card p-4 rounded-2xl">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-black text-white bg-gradient-to-br from-orange-500 to-orange-600">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-black text-white bg-gradient-to-br from-yellow-400 to-prussian-DEFAULT">
                 {worker.name?.[0]?.toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
@@ -50,9 +50,9 @@ export default function Sidebar({ worker }) {
                 <p className="text-xs font-semibold" style={{ color: 'var(--text-2)' }}>{worker.platform}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-orange-500/10">
-              <Sparkles size={12} className="text-orange-400" />
-              <span className="text-xs font-bold text-orange-400">{worker.city}</span>
+            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-yellow-400/10">
+              <Sparkles size={12} className="text-yellow-400" />
+              <span className="text-xs font-bold text-yellow-400">{worker.city}</span>
             </div>
           </div>
         </div>

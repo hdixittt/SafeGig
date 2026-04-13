@@ -46,9 +46,9 @@ export default function AdminDashboard() {
             <p className="text-xs" style={{ color: 'var(--text-3)' }}>Guidewire DEVTrails 2026 · Operations Portal</p>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 rounded-full"
-            style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)' }}>
-            <div className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-            <span className="text-xs font-bold" style={{ color: '#f97316' }}>Live</span>
+            style={{ background: 'rgba(255,206,50,0.1)', border: '1px solid rgba(255,206,50,0.2)' }}>
+            <div className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
+            <span className="text-xs font-bold" style={{ color: '#FFCE32' }}>Live</span>
           </div>
         </div>
         <div className="p-8">

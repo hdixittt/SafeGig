@@ -38,7 +38,7 @@ const SAMPLE_NOTIFICATIONS = [
   {
     type: 'claim',
     icon: CheckCircle,
-    color: '#f97316',
+    color: '#FFCE32',
     label: 'Claim Auto-Approved',
     amount: '₹1,200',
     trigger: 'Heavy Rain',
@@ -124,7 +124,7 @@ export default function Notifications() {
       {/* Notification Rules */}
       <div className="glass-card-strong rounded-2xl overflow-hidden">
         <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
-          <Bell size={15} style={{color:'#f97316'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Notification Rules</h3>
+          <Bell size={15} style={{color:'#FFCE32'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Notification Rules</h3>
         </div>
         <div className="divide-y" style={{borderColor:'rgba(255,255,255,0.04)'}}>
           {rules.map(r => (
@@ -134,7 +134,7 @@ export default function Notifications() {
                 <p className="text-xs mt-0.5" style={{color:'var(--text-3)'}}>{r.channel} · {r.lang}</p>
               </div>
               <button onClick={()=>toggle(r.id)}
-                className={`w-11 h-6 rounded-full transition-all relative ${r.enabled?'bg-orange-500':'bg-white/10'}`}>
+                className={`w-11 h-6 rounded-full transition-all relative ${r.enabled?'bg-yellow-400':'bg-white/10'}`}>
                 <div className={`w-4 h-4 rounded-full bg-white absolute top-1 transition-all ${r.enabled?'left-6':'left-1'}`} />
               </button>
             </div>
