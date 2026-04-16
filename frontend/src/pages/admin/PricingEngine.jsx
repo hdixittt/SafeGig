@@ -45,7 +45,7 @@ export default function PricingEngine() {
         <div><h2 className="text-2xl font-black" style={{color:'var(--text-1)'}}>Dynamic Premium Engine</h2><p className="text-sm" style={{color:'var(--text-3)'}}>ML model pricing monitor — last re-priced: {lastReprice}</p></div>
         <button onClick={triggerReprice} disabled={repricing}
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white transition-all hover:scale-105 disabled:opacity-60"
-          style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>
+          style={{background:'linear-gradient(135deg,#6D8196,#4f6070)'}}>
           <RefreshCw size={14} className={repricing?'animate-spin':''} />
           {repricing ? 'Re-pricing...' : 'Trigger Re-price'}
         </button>
@@ -55,17 +55,17 @@ export default function PricingEngine() {
         <Signal icon={Droplets} label="Flood History"      value={0.72} color="#3b82f6" />
         <Signal icon={Wind}     label="AQI Signal"         value={0.65} color="#8b5cf6" />
         <Signal icon={Sun}      label="Seasonal Pattern"   value={0.48} color="#f59e0b" />
-        <Signal icon={Activity} label="Activity Multiplier" value={0.81} color="#FFCE32" />
+        <Signal icon={Activity} label="Activity Multiplier" value={0.81} color="#6D8196" />
       </div>
 
       <div className="glass-card-strong rounded-2xl overflow-hidden">
-        <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
-          <Cpu size={16} style={{color:'#FFCE32'}} />
+        <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
+          <Cpu size={16} style={{color:'#4A4A4A'}} />
           <h3 className="font-bold" style={{color:'var(--text-1)'}}>Zone Premium Heatmap</h3>
-          <span className="ml-auto text-xs px-3 py-1 rounded-full font-bold" style={{background:'rgba(255,206,50,0.1)',color:'#FFCE32'}}>Live Pricing</span>
+          <span className="ml-auto text-xs px-3 py-1 rounded-full font-bold" style={{background:'rgba(74,74,74,0.1)',color:'#4A4A4A'}}>Live Pricing</span>
         </div>
         <table className="w-full text-sm">
-          <thead><tr style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+          <thead><tr style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
             {['Zone','AQI','Flood Risk','Seasonal','Activity','Weekly Premium','Tier'].map(h=>(
               <th key={h} className="text-left px-5 py-3 text-xs font-bold uppercase tracking-wider" style={{color:'var(--text-3)'}}>{h}</th>
             ))}
@@ -73,10 +73,10 @@ export default function PricingEngine() {
           <tbody>
             {ZONES.map((z,i) => (
               <motion.tr key={z.zone} initial={{opacity:0}} animate={{opacity:1}} transition={{delay:i*0.04}}
-                className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                className="hover:bg-white/10 transition-colors" style={{borderBottom:'1px solid rgba(203,203,203,0.3)'}}>
                 <td className="px-5 py-3.5 font-semibold" style={{color:'var(--text-1)'}}>{z.zone}</td>
                 <td className="px-5 py-3.5">
-                  <span className={`text-xs font-bold ${z.aqi>300?'text-red-400':z.aqi>200?'text-yellow-400':'text-green-400'}`}>{z.aqi}</span>
+                  <span className={`text-xs font-bold ${z.aqi>300?'text-red-400':z.aqi>200?'text-[#6D8196]':'text-green-400'}`}>{z.aqi}</span>
                 </td>
                 {['flood','seasonal','activity'].map(k => (
                   <td key={k} className="px-5 py-3.5">
@@ -86,7 +86,7 @@ export default function PricingEngine() {
                     </div>
                   </td>
                 ))}
-                <td className="px-5 py-3.5 font-black text-yellow-400">₹{z.premium}</td>
+                <td className="px-5 py-3.5 font-black text-[#6D8196]">₹{z.premium}</td>
                 <td className="px-5 py-3.5">
                   <span className="px-2.5 py-1 rounded-full text-xs font-bold" style={{background:`${TIER_COLOR[z.tier]}18`,color:TIER_COLOR[z.tier]}}>{z.tier}</span>
                 </td>

@@ -8,7 +8,7 @@ const TRIGGERS = [
   { type:'extreme_heat',        icon:Thermometer,   color:'#ef4444', label:'Extreme Heat',       unit:'°C',    threshold:42  },
   { type:'severe_pollution',    icon:Wind,          color:'#8b5cf6', label:'Severe Pollution',   unit:'AQI',   threshold:300 },
   { type:'curfew_strike',       icon:AlertOctagon,  color:'#f59e0b', label:'Curfew / Strike',    unit:'flag',  threshold:1   },
-  { type:'road_accident_surge', icon:AlertTriangle, color:'#FFCE32', label:'Accident Surge',     unit:'/hr',   threshold:5   },
+  { type:'road_accident_surge', icon:AlertTriangle, color:'#4A4A4A', label:'Accident Surge',     unit:'/hr',   threshold:5   },
 ];
 
 const CITIES = ['Gurgaon','Delhi','Mumbai','Chennai','Kolkata','Bangalore'];
@@ -97,14 +97,14 @@ export default function TriggerMonitor() {
 
       <div className="grid grid-cols-2 gap-5">
         <div className="glass-card-strong p-6 rounded-2xl">
-          <div className="flex items-center gap-2 mb-5"><Zap size={16} style={{color:'#FFCE32'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Manual Fire Trigger</h3></div>
+          <div className="flex items-center gap-2 mb-5"><Zap size={16} style={{color:'#4A4A4A'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Manual Fire Trigger</h3></div>
           <div className="grid grid-cols-2 gap-2 mb-4">
             {TRIGGERS.map(t => {
               const Icon = t.icon;
               return (
                 <button key={t.type} onClick={()=>{setSelType(t);setManualVal(t.threshold+5);}}
                   className={`flex items-center gap-2 p-3 rounded-xl text-xs font-semibold transition-all text-left ${selType.type===t.type?'ring-1':''}`}
-                  style={{background:selType.type===t.type?`${t.color}14`:'rgba(255,255,255,0.04)',border:`1px solid ${selType.type===t.type?t.color+'40':'rgba(255,255,255,0.08)'}`,color:selType.type===t.type?t.color:'rgba(255,255,255,0.5)'}}>
+                  style={{background:selType.type===t.type?`${t.color}14`:'rgba(203,203,203,0.3)',border:`1px solid ${selType.type===t.type?t.color+'40':'rgba(203,203,203,0.4)'}`,color:selType.type===t.type?t.color:'rgba(74,74,74,0.55)'}}>
                   <Icon size={13} />{t.label}
                 </button>
               );
@@ -129,7 +129,7 @@ export default function TriggerMonitor() {
                 <AnimatePresence>{log.map((e,i)=>(
                   <motion.div key={i} initial={{opacity:0,x:-8}} animate={{opacity:1,x:0}}
                     className="flex items-center justify-between p-3 rounded-xl text-xs"
-                    style={{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.06)'}}>
+                    style={{background:'rgba(203,203,203,0.3)',border:'1px solid rgba(203,203,203,0.4)'}}>
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-green-400" />
                       <span className="font-semibold" style={{color:'var(--text-1)'}}>{e.type?.replace(/_/g,' ')}</span>

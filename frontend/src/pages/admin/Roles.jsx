@@ -4,16 +4,16 @@ import { UserCog, Plus, Shield, Eye, Edit, Trash2 } from 'lucide-react';
 
 const ROLES = [
   { id:'r1', name:'Super Admin',   color:'#ef4444', perms:['All access','User management','System config','Audit log'] },
-  { id:'r2', name:'Ops Manager',   color:'#FFCE32', perms:['Workers','Policies','Triggers','Claims','Payouts'] },
+  { id:'r2', name:'Ops Manager',   color:'#4A4A4A', perms:['Workers','Policies','Triggers','Claims','Payouts'] },
   { id:'r3', name:'Finance',       color:'#22c55e', perms:['Payouts','Reports','Premium Engine (read)'] },
   { id:'r4', name:'Fraud Analyst', color:'#8b5cf6', perms:['Claims','Fraud Console','Worker flags'] },
 ];
 
 const USERS = [
-  { id:'u1', name:'Admin',          email:'admin@safegig.demo',   role:'Super Admin',   last:'Just now',    status:'active' },
-  { id:'u2', name:'Ops Lead',       email:'ops@safegig.demo',     role:'Ops Manager',   last:'2h ago',      status:'active' },
-  { id:'u3', name:'Finance Head',   email:'finance@safegig.demo', role:'Finance',       last:'Yesterday',   status:'active' },
-  { id:'u4', name:'Fraud Analyst',  email:'fraud@safegig.demo',   role:'Fraud Analyst', last:'3 days ago',  status:'inactive' },
+  { id:'u1', name:'Admin',          email:'admin@coverly.demo',   role:'Super Admin',   last:'Just now',    status:'active' },
+  { id:'u2', name:'Ops Lead',       email:'ops@coverly.demo',     role:'Ops Manager',   last:'2h ago',      status:'active' },
+  { id:'u3', name:'Finance Head',   email:'finance@coverly.demo', role:'Finance',       last:'Yesterday',   status:'active' },
+  { id:'u4', name:'Fraud Analyst',  email:'fraud@coverly.demo',   role:'Fraud Analyst', last:'3 days ago',  status:'inactive' },
 ];
 
 const AUDIT = [
@@ -23,7 +23,7 @@ const AUDIT = [
   { user:'Fraud Analyst',action:'Escalated claim C-003 for investigation',  time:'Yesterday' },
 ];
 
-const ROLE_COLOR = { 'Super Admin':'#ef4444', 'Ops Manager':'#FFCE32', 'Finance':'#22c55e', 'Fraud Analyst':'#8b5cf6' };
+const ROLE_COLOR = { 'Super Admin':'#ef4444', 'Ops Manager':'#4A4A4A', 'Finance':'#22c55e', 'Fraud Analyst':'#8b5cf6' };
 
 export default function Roles() {
   return (
@@ -45,14 +45,14 @@ export default function Roles() {
       </div>
 
       <div className="glass-card-strong rounded-2xl overflow-hidden">
-        <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
-          <UserCog size={15} style={{color:'#FFCE32'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Admin Users</h3>
-          <button className="ml-auto flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>
+        <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
+          <UserCog size={15} style={{color:'#4A4A4A'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Admin Users</h3>
+          <button className="ml-auto flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white" style={{background:'linear-gradient(135deg,#6D8196,#4f6070)'}}>
             <Plus size={12} />Add User
           </button>
         </div>
         <table className="w-full text-sm">
-          <thead><tr style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+          <thead><tr style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
             {['Name','Email','Role','Last Active','Status','Actions'].map(h=>(
               <th key={h} className="text-left px-5 py-3 text-xs font-bold uppercase tracking-wider" style={{color:'var(--text-3)'}}>{h}</th>
             ))}
@@ -60,7 +60,7 @@ export default function Roles() {
           <tbody>
             {USERS.map((u,i) => (
               <motion.tr key={u.id} initial={{opacity:0}} animate={{opacity:1}} transition={{delay:i*0.04}}
-                className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                className="hover:bg-white/10 transition-colors" style={{borderBottom:'1px solid rgba(203,203,203,0.3)'}}>
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white" style={{background:`linear-gradient(135deg,${ROLE_COLOR[u.role]||'#6b7280'},${ROLE_COLOR[u.role]||'#6b7280'}bb)`}}>{u.name[0]}</div>
@@ -78,7 +78,7 @@ export default function Roles() {
                 <td className="px-5 py-3.5">
                   <div className="flex gap-1.5">
                     <button className="p-1.5 rounded-lg hover:bg-white/10"><Eye size={13} style={{color:'var(--text-3)'}} /></button>
-                    <button className="p-1.5 rounded-lg hover:bg-blue-500/10"><Edit size={13} className="text-blue-400" /></button>
+                    <button className="p-1.5 rounded-lg hover:bg-[#6D8196]/10"><Edit size={13} className="text-blue-400" /></button>
                     <button className="p-1.5 rounded-lg hover:bg-red-500/10"><Trash2 size={13} className="text-red-400" /></button>
                   </div>
                 </td>

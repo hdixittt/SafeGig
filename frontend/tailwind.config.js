@@ -4,15 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: { DEFAULT: '#FFCE32', dark: '#1D63FF', light: '#FFE080' },
-        yellow: { DEFAULT: '#FFCE32', light: '#FFE080', dark: '#E6B800' },
-        prussian: { DEFAULT: '#1D63FF', dark: '#1450CC', light: '#4D85FF' },
-        dark: {
-          900: '#0a0a0f',
-          800: '#0f0f1a',
-          700: '#1a1a2e',
-          600: '#16213e',
-          500: '#2d2d3d',
+        brand: { DEFAULT: '#3D52A0', dark: '#2d3d7a', light: '#7091E6' },
+        palette: {
+          navy:    '#3D52A0',
+          blue:    '#7091E6',
+          muted:   '#8697C4',
+          soft:    '#ADBBDA',
+          lavender:'#EDE8F5',
         }
       },
       fontFamily: { sans: ['Inter', 'sans-serif'] },

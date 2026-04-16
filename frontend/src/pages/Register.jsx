@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { User, Phone, Mail, MapPin, Hash, Clock, Lock, Shield, ArrowRight, Sparkles } from 'lucide-react';
+import { User, Phone, Mail, MapPin, Hash, Clock, Lock, Shield, ArrowRight, Sparkles, BadgeCheck } from 'lucide-react';
 import api from '../api';
 import ThemeToggle from '../components/ThemeToggle';
+import CoverlyLogo from '../components/CoverlyLogo';
+import LanguageSelector from '../components/LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
 
 const PLATFORMS = ['Zepto', 'Blinkit', 'Instamart'];
 const tiers = [
@@ -15,7 +18,8 @@ const tiers = [
 
 export default function Register() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name:'', phone:'', email:'', city:'', pin_code:'', platform:'Zepto', weekly_hours:40, password:'' });
+  const { t } = useLanguage();
+  const [form, setForm] = useState({ name:'', phone:'', email:'', city:'', pin_code:'', platform:'Zepto', weekly_hours:40, password:'', rider_id:'' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
@@ -34,20 +38,24 @@ export default function Register() {
   return (
     <div className="min-h-screen flex relative overflow-hidden" style={{ background: 'var(--bg)' }}>
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full blur-[120px]" style={{ background: 'radial-gradient(circle, #FFCE32 0%, transparent 70%)' }} />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full blur-[100px]" style={{ background: 'radial-gradient(circle, #1D63FF 0%, transparent 70%)' }} />
+        <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full blur-[120px]" style={{ background: 'radial-gradient(circle, rgba(109,129,150,0.35) 0%, transparent 70%)' }} />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full blur-[100px]" style={{ background: 'radial-gradient(circle, rgba(203,203,203,0.5) 0%, transparent 70%)' }} />
       </div>
-      <div className="absolute top-6 right-6 z-50"><ThemeToggle /></div>
+      <div className="absolute top-6 right-6 z-50 flex items-center gap-3">
+        <LanguageSelector />
+        <ThemeToggle />
+      </div>
 
       <div className="hidden lg:flex flex-col justify-center px-20 w-[48%] relative z-10">
         <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8 }} className="max-w-xl">
           <div className="flex items-center gap-4 mb-20">
-            <div className="w-16 h-16 rounded-3xl flex items-center justify-center bg-gradient-to-br from-yellow-400 to-prussian-DEFAULT">
-              <Shield size={32} className="text-white" strokeWidth={2.5} />
+            <div className="w-16 h-16 rounded-3xl flex items-center justify-center"
+              style={{ background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 8px 32px rgba(61,82,160,0.15)' }}>
+              <CoverlyLogo size={44} />
             </div>
             <div>
-              <h1 className="text-3xl font-black tracking-tight" style={{ color:'var(--text-1)' }}>SafeGig</h1>
-              <p className="text-sm font-bold text-yellow-500 uppercase tracking-widest">Worker Portal</p>
+              <h1 className="text-3xl coverly-brand" style={{ color:'var(--text-1)' }}>Coverly</h1>
+              <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-3)' }}>Worker Portal</p>
             </div>
           </div>
           <div className="mb-16">
@@ -60,7 +68,7 @@ export default function Register() {
           </div>
           <div className="glass-card-strong p-8">
             <div className="flex items-center gap-3 mb-6">
-              <Sparkles size={18} className="text-yellow-400" />
+              <Sparkles size={18} className="text-[#6D8196]" />
               <p className="text-xs font-black uppercase tracking-widest" style={{ color:'var(--text-2)' }}>Coverage Tiers</p>
             </div>
             <div className="space-y-5">
@@ -86,12 +94,13 @@ export default function Register() {
           <div className="glass-card-strong p-10">
             <div className="mb-8">
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-gradient-to-br from-yellow-400 to-prussian-DEFAULT">
-                  <Shield size={24} className="text-white" strokeWidth={2.5} />
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg, #3D52A0, #7091E6)' }}>
+                  <CoverlyLogo size={34} />
                 </div>
                 <div>
                   <h3 className="text-3xl font-black" style={{ color:'var(--text-1)' }}>Create Account</h3>
-                  <p className="text-sm font-medium" style={{ color:'var(--text-2)' }}>Join SafeGig today</p>
+                  <p className="text-sm font-medium" style={{ color:'var(--text-2)' }}>Join Coverly today</p>
                 </div>
               </div>
             </div>
@@ -151,11 +160,22 @@ export default function Register() {
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color:'var(--text-2)' }}>Password</label>
-                <div className="input-with-icon">
-                  <Lock size={16} className="input-icon" />
-                  <input name="password" type="password" placeholder="Create a password" value={form.password} onChange={handleChange} required className="input-premium text-sm" />
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color:'var(--text-2)' }}>Password</label>
+                  <div className="input-with-icon">
+                    <Lock size={16} className="input-icon" />
+                    <input name="password" type="password" placeholder="Create a password" value={form.password} onChange={handleChange} required className="input-premium text-sm" />
+                  </div>
                 </div>
+              {/* Rider ID */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color:'var(--text-2)' }}>
+                  {t('riderId')} <span className="normal-case font-normal" style={{color:'var(--text-3)'}}>— for verification</span>
+                </label>
+                <div className="input-with-icon">
+                  <BadgeCheck size={16} className="input-icon" />
+                  <input name="rider_id" type="text" placeholder={t('riderIdPlaceholder')} value={form.rider_id} onChange={handleChange} className="input-premium text-sm" />
+                </div>
+                <p className="text-xs mt-1.5" style={{color:'var(--text-3)'}}>Find your Rider ID in your Zepto/Blinkit/Instamart app under Profile → ID</p>
               </div>
               {error && (
                 <motion.div initial={{ opacity:0, y:-10 }} animate={{ opacity:1, y:0 }} className="bg-red-500/10 border border-red-500/30 rounded-2xl px-5 py-4 flex items-start gap-3">
@@ -173,13 +193,13 @@ export default function Register() {
             <div className="mt-8 pt-6 text-center" style={{ borderTop:'1px solid var(--border)' }}>
               <p className="text-sm" style={{ color:'var(--text-2)' }}>
                 Already registered?{' '}
-                <Link to="/login" className="text-yellow-400 font-bold hover:text-yellow-300 transition-colors">Sign in</Link>
+                <Link to="/login" className="text-[#4A4A4A] font-bold hover:text-[#6D8196] transition-colors">Sign in</Link>
               </p>
             </div>
           </div>
           <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.6 }} className="mt-8 text-center">
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
-              <Sparkles size={16} className="text-yellow-400" />
+              <Sparkles size={16} className="text-[#6D8196]" />
               <span className="text-sm font-semibold" style={{ color:'var(--text-2)' }}>Trusted by 10M+ gig workers</span>
             </div>
           </motion.div>

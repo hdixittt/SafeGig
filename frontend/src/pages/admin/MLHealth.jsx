@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Activity, RefreshCw, AlertTriangle, CheckCircle, TrendingUp } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
-const TT = { background:'rgba(0,0,0,0.85)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:'10px', fontSize:'12px', color:'#fff' };
+const TT = { background:'rgba(255,255,255,0.97)', border:'1px solid rgba(203,203,203,0.5)', borderRadius:'10px', fontSize:'12px', color:'#4A4A4A' };
 
 const predVsActual = [
   {week:'W1',predicted:72,actual:68},{week:'W2',predicted:65,actual:70},{week:'W3',predicted:80,actual:78},
@@ -36,7 +36,7 @@ export default function MLHealth() {
       </div>
 
       <div className="grid grid-cols-4 gap-4">
-        {[['Accuracy','94.2%','#22c55e',CheckCircle],['AUC-ROC','0.91','#3b82f6',TrendingUp],['Precision','92.8%','#FFCE32',Activity],['Drift Score','0.06','#f59e0b',AlertTriangle]].map(([l,v,c,Icon])=>(
+        {[['Accuracy','94.2%','#22c55e',CheckCircle],['AUC-ROC','0.91','#3b82f6',TrendingUp],['Precision','92.8%','#4A4A4A',Activity],['Drift Score','0.06','#f59e0b',AlertTriangle]].map(([l,v,c,Icon])=>(
           <div key={l} className="glass-card-strong p-5 rounded-2xl">
             <div className="flex items-center gap-2 mb-3"><Icon size={14} style={{color:c}} /><span className="text-xs font-bold uppercase" style={{color:'var(--text-3)'}}>{l}</span></div>
             <p className="text-3xl font-black" style={{color:c}}>{v}</p>
@@ -47,7 +47,7 @@ export default function MLHealth() {
       <div className="grid grid-cols-2 gap-5">
         <div className="glass-card-strong p-6 rounded-2xl">
           <div className="flex items-center gap-2 mb-4"><TrendingUp size={15} style={{color:'#3b82f6'}} /><h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Predicted vs Actual Risk Score</h3></div>
-          <div className="h-48"><ResponsiveContainer width="100%" height="100%"><LineChart data={predVsActual}><XAxis dataKey="week" tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} /><YAxis tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} /><Tooltip contentStyle={TT} /><Line type="monotone" dataKey="predicted" stroke="#3b82f6" strokeWidth={2} dot={{r:3}} strokeDasharray="5 3" /><Line type="monotone" dataKey="actual" stroke="#22c55e" strokeWidth={2} dot={{r:3}} /></LineChart></ResponsiveContainer></div>
+          <div className="h-48"><ResponsiveContainer width="100%" height="100%"><LineChart data={predVsActual}><XAxis dataKey="week" tick={{fill:'rgba(74,74,74,0.45)',fontSize:10}} axisLine={false} tickLine={false} /><YAxis tick={{fill:'rgba(74,74,74,0.45)',fontSize:10}} axisLine={false} tickLine={false} /><Tooltip contentStyle={TT} /><Line type="monotone" dataKey="predicted" stroke="#3b82f6" strokeWidth={2} dot={{r:3}} strokeDasharray="5 3" /><Line type="monotone" dataKey="actual" stroke="#22c55e" strokeWidth={2} dot={{r:3}} /></LineChart></ResponsiveContainer></div>
           <div className="flex gap-4 mt-2"><div className="flex items-center gap-1.5"><div className="w-4 h-0.5 bg-blue-400" style={{borderTop:'2px dashed #3b82f6'}} /><span className="text-xs" style={{color:'var(--text-3)'}}>Predicted</span></div><div className="flex items-center gap-1.5"><div className="w-4 h-0.5 bg-green-400" /><span className="text-xs" style={{color:'var(--text-3)'}}>Actual</span></div></div>
         </div>
 
@@ -57,7 +57,7 @@ export default function MLHealth() {
             <h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Model Drift (7-day)</h3>
             <span className="ml-auto text-xs px-2 py-0.5 rounded-full font-bold" style={{background:'rgba(245,158,11,0.15)',color:'#f59e0b'}}>Moderate drift</span>
           </div>
-          <div className="h-48"><ResponsiveContainer width="100%" height="100%"><AreaChart data={driftData}><defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} /><stop offset="95%" stopColor="#f59e0b" stopOpacity={0} /></linearGradient></defs><XAxis dataKey="day" tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} /><YAxis tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} /><Tooltip contentStyle={TT} /><Area type="monotone" dataKey="drift" stroke="#f59e0b" strokeWidth={2} fill="url(#dg)" /></AreaChart></ResponsiveContainer></div>
+          <div className="h-48"><ResponsiveContainer width="100%" height="100%"><AreaChart data={driftData}><defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} /><stop offset="95%" stopColor="#f59e0b" stopOpacity={0} /></linearGradient></defs><XAxis dataKey="day" tick={{fill:'rgba(74,74,74,0.45)',fontSize:10}} axisLine={false} tickLine={false} /><YAxis tick={{fill:'rgba(74,74,74,0.45)',fontSize:10}} axisLine={false} tickLine={false} /><Tooltip contentStyle={TT} /><Area type="monotone" dataKey="drift" stroke="#f59e0b" strokeWidth={2} fill="url(#dg)" /></AreaChart></ResponsiveContainer></div>
           <p className="text-xs mt-2" style={{color:'var(--text-3)'}}>Drift threshold: 0.10 — retrain recommended if sustained above threshold</p>
         </div>
       </div>

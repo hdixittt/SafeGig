@@ -31,8 +31,8 @@ export default function Policies() {
           <div className="flex gap-2">
             {['all','active','expired','cancelled'].map(s => (
               <button key={s} onClick={()=>setFilter(s)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold capitalize transition-all ${filter===s?'text-white':'hover:bg-white/5'}`}
-                style={filter===s?{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}:{color:'var(--text-3)'}}>
+                className={`px-4 py-2 rounded-xl text-xs font-bold capitalize transition-all ${filter===s?'text-white':'hover:bg-white/10'}`}
+                style={filter===s?{background:'linear-gradient(135deg,#6D8196,#4f6070)'}:{color:'var(--text-3)'}}>
                 {s}
               </button>
             ))}
@@ -49,7 +49,7 @@ export default function Policies() {
           </div>
         ) : (
           <table className="w-full text-sm">
-            <thead><tr style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+            <thead><tr style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
               {['Worker','City','Premium','Coverage','Risk Score','Period','Status','Actions'].map(h=>(
                 <th key={h} className="text-left px-5 py-3 text-xs font-bold uppercase tracking-wider" style={{color:'var(--text-3)'}}>{h}</th>
               ))}
@@ -57,15 +57,15 @@ export default function Policies() {
             <tbody>
               {shown.map((p,i) => (
                 <motion.tr key={p.id} initial={{opacity:0}} animate={{opacity:1}} transition={{delay:i*0.04}}
-                  className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                  className="hover:bg-white/10 transition-colors" style={{borderBottom:'1px solid rgba(203,203,203,0.3)'}}>
                   <td className="px-5 py-3.5 font-semibold" style={{color:'var(--text-1)'}}>{p.worker_name||'—'}</td>
                   <td className="px-5 py-3.5" style={{color:'var(--text-2)'}}>{p.city||'—'}</td>
-                  <td className="px-5 py-3.5 font-bold text-yellow-400">₹{p.premium_paid}</td>
+                  <td className="px-5 py-3.5 font-bold text-[#6D8196]">₹{p.premium_paid}</td>
                   <td className="px-5 py-3.5 font-bold text-green-400">₹{p.coverage_amount}</td>
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2">
                       <div className="h-1.5 w-16 rounded-full bg-white/10 overflow-hidden"><div className="h-full rounded-full bg-yellow-400" style={{width:`${(p.risk_score||0)*100}%`}} /></div>
-                      <span className="text-xs font-bold text-yellow-400">{((p.risk_score||0)*100).toFixed(0)}%</span>
+                      <span className="text-xs font-bold text-[#6D8196]">{((p.risk_score||0)*100).toFixed(0)}%</span>
                     </div>
                   </td>
                   <td className="px-5 py-3.5 text-xs" style={{color:'var(--text-3)'}}>

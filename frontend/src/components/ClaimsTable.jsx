@@ -11,7 +11,7 @@ const STATUS = {
 
 const TRIGGER_META = {
   heavy_rain:          { icon: CloudRain,     label: 'Heavy Rain',        color: '#3b82f6' },
-  extreme_heat:        { icon: Thermometer,   label: 'Extreme Heat',      color: '#FFCE32' },
+  extreme_heat:        { icon: Thermometer,   label: 'Extreme Heat',      color: '#FFFFE3' },
   severe_pollution:    { icon: Wind,          label: 'Severe Pollution',  color: '#8b5cf6' },
   curfew_strike:       { icon: AlertOctagon,  label: 'Curfew / Strike',   color: '#ef4444' },
   road_accident_surge: { icon: AlertTriangle, label: 'Accident Surge',    color: '#f59e0b' },
@@ -43,7 +43,7 @@ export default function ClaimsTable({ claims }) {
             <motion.div key={claim.id}
               initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.05 }} exit={{ opacity: 0, x: 20 }}
-              className="flex items-center justify-between p-5 rounded-2xl glass-card hover:bg-white/5 transition-all"
+              className="flex items-center justify-between p-5 rounded-2xl glass-card hover:bg-white/10 transition-all"
             >
               <div className="flex items-center gap-4">
                 {/* Trigger type icon */}

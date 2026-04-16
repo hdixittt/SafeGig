@@ -53,9 +53,9 @@ const PLANS = [
     tier: 'High Risk',
     premium: 79,
     coverage: 2500,
-    color: '#FFCE32',
-    gradient: 'from-yellow-400/20 to-prussian-DEFAULT/5',
-    border: 'border-yellow-400/30',
+    color: '#f59e0b',
+    gradient: 'from-amber-400/20 to-amber-500/5',
+    border: 'border-amber-400/30',
     description: 'For high-mileage workers in metro cities with heavy traffic and pollution.',
     features: [
       'Rs 2,500 weekly coverage',
@@ -150,14 +150,14 @@ export default function Plans() {
         key:         order.key,
         amount:      order.amount,
         currency:    order.currency,
-        name:        'SafeGig Insurance',
+        name:        'Coverly Insurance',
         description: `${plan.name} — Weekly Policy`,
         order_id:    order.order_id,
         image:       'https://safe-gig-omega.vercel.app/favicon.ico',
         prefill: {
           name:    worker.name,
           contact: worker.phone,
-          email:   worker.email || `${worker.phone}@safegig.demo`,
+          email:   worker.email || `${worker.phone}@coverly.demo`,
         },
         notes: { plan: plan.name, worker_id: worker.id },
         theme: { color: plan.color },
@@ -179,7 +179,7 @@ export default function Plans() {
       if (order.mock) {
         // Show a simulated payment modal instead of auto-approving
         const confirmed = window.confirm(
-          `SafeGig Insurance — ${plan.name}\n\nAmount: ₹${plan.premium}/week\nCoverage: ₹${plan.coverage}\n\nClick OK to simulate payment via UPI (Test Mode)`
+          `Coverly Insurance — ${plan.name}\n\nAmount: ₹${plan.premium}/week\nCoverage: ₹${plan.coverage}\n\nClick OK to simulate payment via UPI (Test Mode)`
         );
         if (!confirmed) { setPaying(null); return; }
         const { data: result } = await api.post('/payments/verify', {
@@ -207,7 +207,7 @@ export default function Plans() {
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg)' }}>
-      <div className="w-12 h-12 border-4 border-yellow-400/20 border-t-orange-500 rounded-full animate-spin" />
+      <div className="w-12 h-12 border-4 border-[#7091E6]/20 border-t-[#3D52A0] rounded-full animate-spin" />
     </div>
   );
 
@@ -238,7 +238,7 @@ export default function Plans() {
             Choose Your Plan
           </motion.h1>
           <p className="text-sm font-medium" style={{ color: 'var(--text-2)' }}>
-            AI-recommended: <span className="text-yellow-400 font-bold capitalize">{riskProfile?.tier} tier</span>
+            AI-recommended: <span className="font-bold capitalize" style={{color:'#3D52A0'}}>{riskProfile?.tier} tier</span>
             {riskProfile && <span> — Rs {riskProfile.premium}/week based on your risk profile</span>}
           </p>
         </div>
@@ -343,8 +343,8 @@ export default function Plans() {
           {/* Info strip */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
             className="mt-8 p-6 glass-card-strong rounded-2xl flex items-center gap-6">
-            <div className="w-12 h-12 rounded-2xl bg-yellow-400/15 flex items-center justify-center flex-shrink-0">
-              <Zap size={22} className="text-yellow-400" strokeWidth={2.5} />
+            <div className="w-12 h-12 rounded-2xl bg-[#6D8196]/15 flex items-center justify-center flex-shrink-0">
+              <Zap size={22} className="text-[#4A4A4A]" strokeWidth={2.5} />
             </div>
             <div>
               <p className="text-sm font-black mb-1" style={{ color: 'var(--text-1)' }}>Zero-Touch Claims on All Plans</p>

@@ -11,7 +11,7 @@ const STATUS_CFG = {
 };
 const TRIGGER_META = {
   heavy_rain:          { icon:CloudRain,     color:'#3b82f6', label:'Heavy Rain'       },
-  extreme_heat:        { icon:Thermometer,   color:'#FFCE32', label:'Extreme Heat'     },
+  extreme_heat:        { icon:Thermometer,   color:'#FFFFE3', label:'Extreme Heat'     },
   severe_pollution:    { icon:Wind,          color:'#8b5cf6', label:'Severe Pollution' },
   curfew_strike:       { icon:AlertOctagon,  color:'#ef4444', label:'Curfew/Strike'    },
   road_accident_surge: { icon:AlertTriangle, color:'#f59e0b', label:'Accident Surge'   },
@@ -44,8 +44,8 @@ export default function Claims() {
           <div className="flex gap-2">
             {['all','manual_review','approved','paid','rejected'].map(s => (
               <button key={s} onClick={()=>setFilter(s)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize transition-all ${filter===s?'text-white':'hover:bg-white/5'}`}
-                style={filter===s?{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}:{color:'var(--text-3)'}}>
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize transition-all ${filter===s?'text-white':'hover:bg-white/10'}`}
+                style={filter===s?{background:'linear-gradient(135deg,#6D8196,#4f6070)'}:{color:'var(--text-3)'}}>
                 {s.replace('_',' ')}
               </button>
             ))}
@@ -62,7 +62,7 @@ export default function Claims() {
           </div>
         ) : (
           <table className="w-full text-sm">
-            <thead><tr style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+            <thead><tr style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
               {['Trigger','Worker','City','Amount','Fraud Score','Status','Time','Actions'].map(h=>(
                 <th key={h} className="text-left px-5 py-3 text-xs font-bold uppercase tracking-wider" style={{color:'var(--text-3)'}}>{h}</th>
               ))}
@@ -74,7 +74,7 @@ export default function Claims() {
                 const sc = STATUS_CFG[c.status] || STATUS_CFG.approved;
                 return (
                   <motion.tr key={c.id} initial={{opacity:0}} animate={{opacity:1}} transition={{delay:i*0.04}}
-                    className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                    className="hover:bg-white/10 transition-colors" style={{borderBottom:'1px solid rgba(203,203,203,0.3)'}}>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{background:`${tm.color}15`}}><Icon size={13} style={{color:tm.color}} /></div>
@@ -85,7 +85,7 @@ export default function Claims() {
                     <td className="px-5 py-3.5" style={{color:'var(--text-2)'}}>{c.city||'—'}</td>
                     <td className="px-5 py-3.5 font-black text-green-400">₹{c.amount}</td>
                     <td className="px-5 py-3.5">
-                      <span className={`text-xs font-bold ${c.fraud_score>0.7?'text-red-400':c.fraud_score>0.4?'text-yellow-400':'text-green-400'}`}>{(c.fraud_score*100).toFixed(0)}%</span>
+                      <span className={`text-xs font-bold ${c.fraud_score>0.7?'text-red-400':c.fraud_score>0.4?'text-[#6D8196]':'text-green-400'}`}>{(c.fraud_score*100).toFixed(0)}%</span>
                     </td>
                     <td className="px-5 py-3.5">
                       <span className="px-2.5 py-1 rounded-full text-xs font-bold capitalize" style={{background:`${sc.color}18`,color:sc.color}}>{sc.label}</span>
@@ -107,17 +107,17 @@ export default function Claims() {
       </div>
 
       {detail && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{background:'rgba(0,0,0,0.7)',backdropFilter:'blur(8px)'}} onClick={()=>setDetail(null)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{background:'rgba(255,255,255,0.9)',backdropFilter:'blur(8px)'}} onClick={()=>setDetail(null)}>
           <motion.div initial={{scale:0.9,opacity:0}} animate={{scale:1,opacity:1}} onClick={e=>e.stopPropagation()}
             className="glass-card-strong p-8 rounded-3xl w-full max-w-md">
             <h3 className="text-xl font-black mb-6" style={{color:'var(--text-1)'}}>Claim Detail</h3>
             {[['Trigger',detail.trigger_type?.replace(/_/g,' ')],['Worker',detail.worker_name||'—'],['Amount',`₹${detail.amount}`],['Fraud Score (Isolation Forest)',`${(detail.fraud_score*100).toFixed(0)}%`],['GPS Validation','Passed (mock)'],['Status',detail.status],['Reason',detail.fraud_score>0.7?'High anomaly score — flagged for review':'Parametric trigger confirmed, auto-approved']].map(([k,v])=>(
-              <div key={k} className="flex justify-between py-3" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+              <div key={k} className="flex justify-between py-3" style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
                 <span className="text-sm" style={{color:'var(--text-3)'}}>{k}</span>
                 <span className="text-sm font-bold" style={{color:'var(--text-1)'}}>{v}</span>
               </div>
             ))}
-            <button onClick={()=>setDetail(null)} className="mt-6 w-full py-3 rounded-xl font-bold text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>Close</button>
+            <button onClick={()=>setDetail(null)} className="mt-6 w-full py-3 rounded-xl font-bold text-white" style={{background:'linear-gradient(135deg,#6D8196,#4f6070)'}}>Close</button>
           </motion.div>
         </div>
       )}

@@ -52,7 +52,7 @@ export default function Payouts() {
           </div>
         ) : (
           <table className="w-full text-sm">
-            <thead><tr style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+            <thead><tr style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
               {['Worker','Amount','Channel','Trigger','Transaction ID','Status','Time','Action'].map(h=>(
                 <th key={h} className="text-left px-5 py-3 text-xs font-bold uppercase tracking-wider" style={{color:'var(--text-3)'}}>{h}</th>
               ))}
@@ -63,7 +63,7 @@ export default function Payouts() {
                 const Icon = sc.icon;
                 return (
                   <motion.tr key={p.id} initial={{opacity:0}} animate={{opacity:1}} transition={{delay:i*0.04}}
-                    className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                    className="hover:bg-white/10 transition-colors" style={{borderBottom:'1px solid rgba(203,203,203,0.3)'}}>
                     <td className="px-5 py-3.5 font-semibold" style={{color:'var(--text-1)'}}>{p.worker_name||'—'}</td>
                     <td className="px-5 py-3.5 font-black text-green-400">₹{p.amount}</td>
                     <td className="px-5 py-3.5 text-xs" style={{color:'var(--text-2)'}}>{p.channel}</td>
@@ -77,7 +77,7 @@ export default function Payouts() {
                     </td>
                     <td className="px-5 py-3.5 text-xs" style={{color:'var(--text-3)'}}>{new Date(p.initiated_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
                     <td className="px-5 py-3.5">
-                      {p.status==='failed' && <button className="flex items-center gap-1 text-xs font-bold text-yellow-400 hover:text-yellow-300"><RefreshCw size={12} />Retry</button>}
+                      {p.status==='failed' && <button className="flex items-center gap-1 text-xs font-bold text-[#6D8196] hover:text-[#6D8196]"><RefreshCw size={12} />Retry</button>}
                     </td>
                   </motion.tr>
                 );

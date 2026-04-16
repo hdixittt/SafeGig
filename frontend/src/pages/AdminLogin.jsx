@@ -3,8 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ShieldCheck, User, Lock, Eye, EyeOff, ArrowRight, Terminal, Zap } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
+import CoverlyLogo from '../components/CoverlyLogo';
+import LanguageSelector from '../components/LanguageSelector';
 
-const ADMIN_CREDENTIALS = { username: 'admin@safegig.demo', password: 'SafeGig@2026' };
+const ADMIN_CREDENTIALS = { username: 'admin@coverly.demo', password: 'Coverly@2026' };
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -31,12 +33,15 @@ export default function AdminLogin() {
       {/* Background blurs */}
       <div className="absolute inset-0 opacity-25 glow-blob">
         <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full blur-[120px]"
-          style={{ background: 'radial-gradient(circle, #ef4444 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(109,129,150,0.4) 0%, transparent 70%)' }} />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full blur-[100px]"
-          style={{ background: 'radial-gradient(circle, #FFCE32 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(109,129,150,0.35) 0%, transparent 70%)' }} />
       </div>
 
-      <div className="absolute top-6 right-6 z-50"><ThemeToggle /></div>
+      <div className="absolute top-6 right-6 z-50 flex items-center gap-3">
+        <LanguageSelector />
+        <ThemeToggle />
+      </div>
 
       {/* Left Panel */}
       <div className="hidden lg:flex flex-col justify-center px-20 w-[50%] relative z-10">
@@ -48,11 +53,12 @@ export default function AdminLogin() {
         >
           {/* Logo */}
           <div className="flex items-center gap-4 mb-20">
-            <div className="w-16 h-16 rounded-3xl flex items-center justify-center bg-gradient-to-br from-red-500 to-prussian-DEFAULT">
-              <ShieldCheck size={32} className="text-white" strokeWidth={2.5} />
+            <div className="w-16 h-16 rounded-3xl flex items-center justify-center"
+              style={{ background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 8px 32px rgba(61,82,160,0.15)' }}>
+              <CoverlyLogo size={44} />
             </div>
             <div>
-              <h1 className="text-3xl font-black tracking-tight" style={{ color: 'var(--text-1)' }}>SafeGig</h1>
+              <h1 className="text-3xl coverly-brand" style={{ color: 'var(--text-1)' }}>Coverly</h1>
               <p className="text-sm font-bold uppercase tracking-widest" style={{ color: '#ef4444' }}>Admin Portal</p>
             </div>
           </div>
@@ -95,8 +101,8 @@ export default function AdminLogin() {
                 className="glass-card p-5 flex items-center gap-4"
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'rgba(239,68,68,0.12)' }}>
-                  <Icon size={20} style={{ color: '#ef4444' }} strokeWidth={2} />
+                  style={{ background: 'rgba(74,74,74,0.1)' }}>
+                  <Icon size={20} style={{ color: '#4A4A4A' }} strokeWidth={2} />
                 </div>
                 <div>
                   <p className="text-sm font-bold" style={{ color: 'var(--text-1)' }}>{label}</p>
@@ -122,11 +128,11 @@ export default function AdminLogin() {
             <div className="space-y-3">
               <div className="flex items-center justify-between p-3 rounded-xl" style={{ background: 'var(--bg-2)' }}>
                 <span className="text-xs font-semibold" style={{ color: 'var(--text-2)' }}>Username</span>
-                <span className="text-sm font-mono font-bold" style={{ color: 'var(--text-1)' }}>admin@safegig.demo</span>
+                <span className="text-sm font-mono font-bold" style={{ color: 'var(--text-1)' }}>admin@coverly.demo</span>
               </div>
               <div className="flex items-center justify-between p-3 rounded-xl" style={{ background: 'var(--bg-2)' }}>
                 <span className="text-xs font-semibold" style={{ color: 'var(--text-2)' }}>Password</span>
-                <span className="text-sm font-mono font-bold" style={{ color: 'var(--text-1)' }}>SafeGig@2026</span>
+                <span className="text-sm font-mono font-bold" style={{ color: 'var(--text-1)' }}>Coverly@2026</span>
               </div>
             </div>
           </motion.div>
@@ -146,8 +152,8 @@ export default function AdminLogin() {
             <div className="mb-10">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg, #ef4444, #FFCE32)' }}>
-                  <ShieldCheck size={24} className="text-white" strokeWidth={2.5} />
+                  style={{ background: 'linear-gradient(135deg, #3D52A0, #7091E6)' }}>
+                  <CoverlyLogo size={34} />
                 </div>
                 <div>
                   <h3 className="text-3xl font-black" style={{ color: 'var(--text-1)' }}>Admin Sign In</h3>
@@ -155,9 +161,9 @@ export default function AdminLogin() {
                 </div>
               </div>
               <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full"
-                style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)' }}>
-                <div className="w-1.5 h-1.5 rounded-full bg-red-400 pulse-glow" />
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#ef4444' }}>
+                style={{ background: 'rgba(74,74,74,0.1)', border: '1px solid rgba(74,74,74,0.2)' }}>
+                <div className="w-1.5 h-1.5 rounded-full bg-[#6D8196] pulse-glow" />
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#4A4A4A' }}>
                   Admin Only
                 </span>
               </div>
@@ -170,7 +176,7 @@ export default function AdminLogin() {
                   style={{ color: 'var(--text-2)' }}>Admin Username</label>
                 <div className="input-with-icon">
                   <User size={18} className="input-icon" />
-                  <input type="text" placeholder="admin@safegig.demo" value={form.username}
+                  <input type="text" placeholder="admin@coverly.demo" value={form.username}
                     onChange={e => setForm({ ...form, username: e.target.value })} required
                     className="input-premium" />
                 </div>
@@ -198,7 +204,7 @@ export default function AdminLogin() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="rounded-2xl px-5 py-4 flex items-start gap-3"
-                  style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)' }}
+                  style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(74,74,74,0.25)' }}
                 >
                   <span className="text-red-400 text-xl">⚠️</span>
                   <p className="text-sm font-semibold text-red-300">{error}</p>
@@ -210,9 +216,9 @@ export default function AdminLogin() {
                 disabled={loading}
                 className="w-full flex items-center justify-center gap-3 rounded-2xl font-black text-lg text-white transition-all group"
                 style={{
-                  background: 'linear-gradient(135deg, #ef4444, #FFCE32)',
+                  background: 'linear-gradient(135deg,#6D8196,#4f6070)',
                   padding: '18px 32px',
-                  boxShadow: '0 8px 24px rgba(239,68,68,0.3)',
+                  boxShadow: '0 8px 24px rgba(74,74,74,0.25)',
                   border: 'none',
                   cursor: loading ? 'not-allowed' : 'pointer',
                   opacity: loading ? 0.6 : 1,
@@ -235,7 +241,7 @@ export default function AdminLogin() {
             <div className="mt-10 pt-8 text-center" style={{ borderTop: '1px solid var(--border)' }}>
               <p className="text-sm" style={{ color: 'var(--text-2)' }}>
                 Worker login?{' '}
-                <Link to="/login" className="font-bold text-yellow-400 hover:text-yellow-300 transition-colors">
+                <Link to="/login" className="font-bold text-[#4A4A4A] hover:text-[#6D8196] transition-colors">
                   Go to worker portal →
                 </Link>
               </p>
@@ -249,9 +255,9 @@ export default function AdminLogin() {
             className="mt-8 text-center"
           >
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card">
-              <ShieldCheck size={16} style={{ color: '#ef4444' }} />
+              <ShieldCheck size={16} style={{ color: '#4A4A4A' }} />
               <span className="text-sm font-semibold" style={{ color: 'var(--text-2)' }}>
-                Secured admin access · SafeGig Ops
+                Secured admin access · Coverly Ops
               </span>
             </div>
           </motion.div>

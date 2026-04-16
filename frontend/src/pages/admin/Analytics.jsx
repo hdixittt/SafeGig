@@ -4,14 +4,14 @@ import { TrendingUp, IndianRupee, Zap, RefreshCw, CloudRain, Thermometer, Wind, 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, AreaChart, Area } from 'recharts';
 import { adminApi } from '../../api';
 
-const TT = { background:'rgba(0,0,0,0.85)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:'10px', fontSize:'12px', color:'#fff' };
+const TT = { background:'rgba(255,255,255,0.97)', border:'1px solid rgba(203,203,203,0.5)', borderRadius:'10px', fontSize:'12px', color:'#4A4A4A' };
 
 const TRIGGER_ICONS = {
   heavy_rain: CloudRain, extreme_heat: Thermometer,
   severe_pollution: Wind, curfew_strike: AlertOctagon, road_accident_surge: AlertTriangle,
 };
 const TRIGGER_COLORS = {
-  heavy_rain:'#3b82f6', extreme_heat:'#FFCE32', severe_pollution:'#8b5cf6',
+  heavy_rain:'#3b82f6', extreme_heat:'#6D8196', severe_pollution:'#8b5cf6',
   curfew_strike:'#ef4444', road_accident_surge:'#f59e0b',
 };
 
@@ -68,15 +68,15 @@ export default function Analytics() {
       {/* Weekly Trend */}
       <div className="grid grid-cols-2 gap-5">
         <div className="glass-card-strong p-6 rounded-2xl">
-          <div className="flex items-center gap-2 mb-4"><TrendingUp size={15} style={{color:'#FFCE32'}} /><h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Premium vs Payout Trend</h3></div>
+          <div className="flex items-center gap-2 mb-4"><TrendingUp size={15} style={{color:'#4A4A4A'}} /><h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Premium vs Payout Trend</h3></div>
           <div className="h-48"><ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data.weekly_trend}>
               <defs>
                 <linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/><stop offset="95%" stopColor="#22c55e" stopOpacity={0}/></linearGradient>
                 <linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/><stop offset="95%" stopColor="#ef4444" stopOpacity={0}/></linearGradient>
               </defs>
-              <XAxis dataKey="day" tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} />
-              <YAxis tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} />
+              <XAxis dataKey="day" tick={{fill:'rgba(74,74,74,0.45)',fontSize:10}} axisLine={false} tickLine={false} />
+              <YAxis tick={{fill:'rgba(74,74,74,0.45)',fontSize:10}} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={TT} />
               <Area type="monotone" dataKey="premium" stroke="#22c55e" strokeWidth={2} fill="url(#pg)" name="Premium" />
               <Area type="monotone" dataKey="payout" stroke="#ef4444" strokeWidth={2} fill="url(#og)" name="Payout" />
@@ -89,16 +89,16 @@ export default function Analytics() {
         </div>
 
         <div className="glass-card-strong p-6 rounded-2xl">
-          <div className="flex items-center gap-2 mb-4"><Zap size={15} style={{color:'#FFCE32'}} /><h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Claims by Trigger Type</h3></div>
+          <div className="flex items-center gap-2 mb-4"><Zap size={15} style={{color:'#4A4A4A'}} /><h3 className="font-bold text-sm" style={{color:'var(--text-1)'}}>Claims by Trigger Type</h3></div>
           {data.trigger_breakdown.length === 0 ? (
             <div className="flex items-center justify-center h-48 text-sm" style={{color:'var(--text-3)'}}>No claims yet</div>
           ) : (
             <div className="h-48"><ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.trigger_breakdown} barSize={20}>
-                <XAxis dataKey="type" tick={{fill:'rgba(255,255,255,0.4)',fontSize:9}} axisLine={false} tickLine={false} tickFormatter={v=>v.replace(/_/g,' ').slice(0,8)} />
-                <YAxis tick={{fill:'rgba(255,255,255,0.4)',fontSize:10}} axisLine={false} tickLine={false} />
+                <XAxis dataKey="type" tick={{fill:'rgba(74,74,74,0.45)',fontSize:9}} axisLine={false} tickLine={false} tickFormatter={v=>v.replace(/_/g,' ').slice(0,8)} />
+                <YAxis tick={{fill:'rgba(74,74,74,0.45)',fontSize:10}} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={TT} />
-                <Bar dataKey="count" fill="#FFCE32" radius={[4,4,0,0]} />
+                <Bar dataKey="count" fill="#6D8196" radius={[4,4,0,0]} />
               </BarChart>
             </ResponsiveContainer></div>
           )}

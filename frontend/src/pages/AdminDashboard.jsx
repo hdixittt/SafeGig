@@ -42,13 +42,13 @@ export default function AdminDashboard() {
       <main className="flex-1 overflow-auto">
         <div className="topbar-premium px-8 py-4 sticky top-0 z-10 flex items-center justify-between">
           <div>
-            <h1 className="text-base font-black" style={{ color: 'var(--text-1)' }}>SafeGig Admin</h1>
+            <h1 className="text-base coverly-brand" style={{ color: 'var(--text-1)' }}>Coverly Admin</h1>
             <p className="text-xs" style={{ color: 'var(--text-3)' }}>Guidewire DEVTrails 2026 · Operations Portal</p>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 rounded-full"
-            style={{ background: 'rgba(255,206,50,0.1)', border: '1px solid rgba(255,206,50,0.2)' }}>
-            <div className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-            <span className="text-xs font-bold" style={{ color: '#FFCE32' }}>Live</span>
+            style={{ background: 'rgba(74,74,74,0.12)', border: '1px solid rgba(74,74,74,0.25)' }}>
+            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            <span className="text-xs font-bold" style={{ color: '#4A4A4A' }}>Live</span>
           </div>
         </div>
         <div className="p-8">

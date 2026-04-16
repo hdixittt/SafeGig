@@ -17,13 +17,13 @@ export default function PolicyCard({ policy }) {
         </div>
         <div className="text-right">
           <p className="text-xs text-gray-400">Premium paid</p>
-          <p className="text-xl font-bold text-yellow-500">₹{policy.premium_paid}</p>
+          <p className="text-xl font-bold text-[#4A4A4A]">₹{policy.premium_paid}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-3 gap-3 mb-3">
         <div><p className="text-xs text-gray-400 mb-0.5">Coverage</p><p className="font-bold text-gray-800">₹{policy.coverage_amount}</p></div>
-        <div><p className="text-xs text-gray-400 mb-0.5">Risk</p><p className="font-bold text-yellow-500">{Math.round((policy.risk_score||0)*100)}%</p></div>
+        <div><p className="text-xs text-gray-400 mb-0.5">Risk</p><p className="font-bold text-[#4A4A4A]">{Math.round((policy.risk_score||0)*100)}%</p></div>
         <div>
           <p className="text-xs text-gray-400 mb-0.5 flex items-center gap-1"><Calendar size={9}/>Period</p>
           <p className="text-xs text-gray-600">{start}–{end}</p>

@@ -39,8 +39,8 @@ export default function Reports() {
         <div className="flex gap-2 ml-auto">
           {['csv','pdf'].map(f => (
             <button key={f} onClick={()=>setFormat(f)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all ${format===f?'text-white':'hover:bg-white/5'}`}
-              style={format===f?{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}:{color:'var(--text-3)'}}>
+              className={`px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all ${format===f?'text-white':'hover:bg-white/10'}`}
+              style={format===f?{background:'linear-gradient(135deg,#6D8196,#4f6070)'}:{color:'var(--text-3)'}}>
               {f}
             </button>
           ))}
@@ -50,7 +50,7 @@ export default function Reports() {
       <div className="grid grid-cols-2 gap-4">
         {REPORTS.map((r,i) => (
           <motion.div key={r.id} initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{delay:i*0.06}}
-            className="glass-card-strong p-5 rounded-2xl flex items-center justify-between hover:bg-white/5 transition-colors">
+            className="glass-card-strong p-5 rounded-2xl flex items-center justify-between hover:bg-white/10 transition-colors">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl" style={{background:'rgba(255,206,50,0.1)'}}>{r.icon}</div>
               <div>
@@ -60,7 +60,7 @@ export default function Reports() {
             </div>
             <button onClick={()=>download(r.id)} disabled={downloading===r.id}
               className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white transition-all hover:scale-105 disabled:opacity-60 flex-shrink-0"
-              style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>
+              style={{background:'linear-gradient(135deg,#6D8196,#4f6070)'}}>
               {downloading===r.id ? <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Download size={12} />}
               {format.toUpperCase()}
             </button>
@@ -71,7 +71,7 @@ export default function Reports() {
       <div className="glass-card-strong p-6 rounded-2xl">
         <div className="flex items-center gap-2 mb-4"><Mail size={15} style={{color:'#3b82f6'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Scheduled Report Delivery</h3></div>
         <div className="grid grid-cols-3 gap-4">
-          {[['Weekly Claims Summary','Every Monday 8AM','ops@safegig.demo'],['Monthly Revenue Report','1st of month','finance@safegig.demo'],['Fraud Analysis','Every Friday 6PM','fraud@safegig.demo']].map(([name,schedule,email])=>(
+          {[['Weekly Claims Summary','Every Monday 8AM','ops@coverly.demo'],['Monthly Revenue Report','1st of month','finance@coverly.demo'],['Fraud Analysis','Every Friday 6PM','fraud@coverly.demo']].map(([name,schedule,email])=>(
             <div key={name} className="p-4 rounded-xl" style={{background:'var(--bg-2)'}}>
               <p className="text-sm font-bold mb-1" style={{color:'var(--text-1)'}}>{name}</p>
               <p className="text-xs mb-1" style={{color:'var(--text-3)'}}>{schedule}</p>

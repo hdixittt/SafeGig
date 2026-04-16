@@ -21,8 +21,8 @@ const SAMPLE_NOTIFICATIONS = [
     amount: '₹1,200',
     trigger: 'Heavy Rain',
     txn: 'TXN174300012AB',
-    en: `SafeGig: Your claim has been approved! ₹1,200 has been sent to your UPI account (TXN174300012AB). Trigger: Heavy Rain in your zone. No action needed. — SafeGig Insurance`,
-    hi: `SafeGig: आपका दावा स्वीकृत हो गया! ₹1,200 आपके UPI खाते में भेज दिए गए हैं (TXN174300012AB)। कारण: आपके क्षेत्र में भारी बारिश। कोई कार्रवाई आवश्यक नहीं। — SafeGig Insurance`,
+    en: `Coverly: Your claim has been approved! ₹1,200 has been sent to your UPI account (TXN174300012AB). Trigger: Heavy Rain in your zone. No action needed. — Coverly Insurance`,
+    hi: `Coverly: आपका दावा स्वीकृत हो गया! ₹1,200 आपके UPI खाते में भेज दिए गए हैं (TXN174300012AB)। कारण: आपके क्षेत्र में भारी बारिश। कोई कार्रवाई आवश्यक नहीं। — Coverly Insurance`,
   },
   {
     type: 'trigger',
@@ -32,31 +32,31 @@ const SAMPLE_NOTIFICATIONS = [
     amount: null,
     trigger: 'Heavy Rain',
     txn: null,
-    en: `SafeGig Alert: Heavy rain detected in your zone (65mm/hr). Your policy is active. If conditions persist, your claim will be auto-filed. Stay safe! — SafeGig`,
-    hi: `SafeGig अलर्ट: आपके क्षेत्र में भारी बारिश (65mm/hr) दर्ज की गई है। आपकी पॉलिसी सक्रिय है। यदि स्थिति बनी रहती है, तो आपका दावा स्वतः दर्ज हो जाएगा। सुरक्षित रहें! — SafeGig`,
+    en: `Coverly Alert: Heavy rain detected in your zone (65mm/hr). Your policy is active. If conditions persist, your claim will be auto-filed. Stay safe! — Coverly`,
+    hi: `Coverly अलर्ट: आपके क्षेत्र में भारी बारिश (65mm/hr) दर्ज की गई है। आपकी पॉलिसी सक्रिय है। यदि स्थिति बनी रहती है, तो आपका दावा स्वतः दर्ज हो जाएगा। सुरक्षित रहें! — Coverly`,
   },
   {
     type: 'claim',
     icon: CheckCircle,
-    color: '#FFCE32',
+    color: '#4A4A4A',
     label: 'Claim Auto-Approved',
     amount: '₹1,200',
     trigger: 'Heavy Rain',
     txn: null,
-    en: `SafeGig: Your claim for Heavy Rain disruption has been auto-approved. ₹1,200 payout is being processed to your UPI. Zero paperwork needed. — SafeGig`,
-    hi: `SafeGig: भारी बारिश के कारण आपका दावा स्वतः स्वीकृत हो गया है। ₹1,200 आपके UPI में भेजे जा रहे हैं। कोई कागज़ी कार्रवाई नहीं। — SafeGig`,
+    en: `Coverly: Your claim for Heavy Rain disruption has been auto-approved. ₹1,200 payout is being processed to your UPI. Zero paperwork needed. — Coverly`,
+    hi: `Coverly: भारी बारिश के कारण आपका दावा स्वतः स्वीकृत हो गया है। ₹1,200 आपके UPI में भेजे जा रहे हैं। कोई कागज़ी कार्रवाई नहीं। — Coverly`,
   },
 ];
 
 function PhoneMockup({ message, lang }) {
   return (
-    <div className="rounded-2xl p-4" style={{background:'var(--bg-2)', border:'1px solid rgba(255,255,255,0.06)'}}>
+    <div className="rounded-2xl p-4" style={{background:'var(--bg-2)', border:'1px solid rgba(203,203,203,0.4)'}}>
       <div className="flex items-center gap-2 mb-3">
         <Smartphone size={13} style={{color:'var(--text-3)'}} />
         <span className="text-xs font-bold uppercase tracking-wider" style={{color:'var(--text-3)'}}>{lang === 'hi' ? 'Hindi (हिंदी)' : 'English'}</span>
         <span className="ml-auto text-xs px-2 py-0.5 rounded-full font-bold" style={{background:'rgba(34,197,94,0.15)',color:'#22c55e'}}>SMS / WhatsApp</span>
       </div>
-      <div className="p-3 rounded-xl text-sm leading-relaxed" style={{background:'rgba(255,255,255,0.04)', color:'var(--text-1)', fontFamily: lang === 'hi' ? 'system-ui' : 'inherit'}}>
+      <div className="p-3 rounded-xl text-sm leading-relaxed" style={{background:'rgba(203,203,203,0.3)', color:'var(--text-1)', fontFamily: lang === 'hi' ? 'system-ui' : 'inherit'}}>
         {message}
       </div>
     </div>
@@ -89,7 +89,7 @@ export default function Notifications() {
             const NIcon = n.icon;
             return (
               <button key={i} onClick={() => setActiveNotif(i)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeNotif===i?'text-white':'hover:bg-white/5'}`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeNotif===i?'text-white':'hover:bg-white/10'}`}
                 style={activeNotif===i?{background:`linear-gradient(135deg,${n.color},${n.color}bb)`}:{color:'var(--text-3)'}}>
                 <NIcon size={12} />
                 {n.label}
@@ -123,12 +123,12 @@ export default function Notifications() {
 
       {/* Notification Rules */}
       <div className="glass-card-strong rounded-2xl overflow-hidden">
-        <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
-          <Bell size={15} style={{color:'#FFCE32'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Notification Rules</h3>
+        <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
+          <Bell size={15} style={{color:'#4A4A4A'}} /><h3 className="font-bold" style={{color:'var(--text-1)'}}>Notification Rules</h3>
         </div>
-        <div className="divide-y" style={{borderColor:'rgba(255,255,255,0.04)'}}>
+        <div className="divide-y" style={{borderColor:'rgba(203,203,203,0.3)'}}>
           {rules.map(r => (
-            <div key={r.id} className="flex items-center justify-between px-5 py-4 hover:bg-white/5 transition-colors">
+            <div key={r.id} className="flex items-center justify-between px-5 py-4 hover:bg-white/10 transition-colors">
               <div>
                 <p className="text-sm font-semibold" style={{color:'var(--text-1)'}}>{r.event}</p>
                 <p className="text-xs mt-0.5" style={{color:'var(--text-3)'}}>{r.channel} · {r.lang}</p>

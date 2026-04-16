@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export default function StatCard({ label, value, sub, icon: Icon, color = '#FFCE32', delay = 0 }) {
+export default function StatCard({ label, value, sub, icon: Icon, color = '#4A4A4A', delay = 0 }) {
   return (
     <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay, duration:0.4}}
       className="stat-card">
@@ -13,9 +13,9 @@ export default function StatCard({ label, value, sub, icon: Icon, color = '#FFCE
           <Icon size={18} style={{color}} />
         </div>
       </div>
-      <p className="text-2xl font-bold text-white mb-1">{value}</p>
-      <p className="text-sm text-slate-400">{label}</p>
-      {sub && <p className="text-xs text-slate-600 mt-1">{sub}</p>}
+      <p className="text-2xl font-bold mb-1" style={{color:'var(--text-1)'}}>{value}</p>
+      <p className="text-sm" style={{color:'var(--text-2)'}}>{label}</p>
+      {sub && <p className="text-xs mt-1" style={{color:'var(--text-3)'}}>{sub}</p>}
     </motion.div>
   );
 }

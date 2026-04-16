@@ -7,6 +7,11 @@ import api from '../api';
 import Sidebar from '../components/Sidebar';
 import LiveConditions from '../components/LiveConditions';
 import ClaimsTable from '../components/ClaimsTable';
+import CoverageMap from '../components/CoverageMap';
+import CoverlyLogo from '../components/CoverlyLogo';
+import BurnoutProtection from '../components/BurnoutProtection';
+import PlatformDowntime from '../components/PlatformDowntime';
+import { useLanguage } from '../context/LanguageContext';
 
 const mockCoverageData = [
   {week:'W1',coverage:800,claims:0},{week:'W2',coverage:1500,claims:150},{week:'W3',coverage:1500,claims:0},
@@ -40,6 +45,7 @@ function StatCard({ label, value, sub, icon: Icon, color, trend, delay }) {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [worker, setWorker]               = useState(null);
   const [riskProfile, setRiskProfile]     = useState(null);
   const [policies, setPolicies]           = useState([]);
@@ -93,9 +99,19 @@ export default function Dashboard() {
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center" style={{background:'var(--bg)'}}>
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-16 h-16 border-4 border-yellow-400/20 border-t-orange-500 rounded-full animate-spin" />
-        <p className="text-gray-400 text-lg font-semibold">Loading your dashboard...</p>
+      <div className="flex flex-col items-center gap-5">
+        <div className="float-anim" style={{
+          width: 64, height: 64,
+          borderRadius: '18px 22px 18px 22px',
+          background: 'rgba(255,255,255,0.55)',
+          backdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255,255,255,0.7)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 8px 32px rgba(61,82,160,0.12)',
+        }}>
+          <CoverlyLogo size={40} />
+        </div>
+        <p className="text-base font-semibold" style={{color:'var(--text-2)'}}>Loading your dashboard…</p>
       </div>
     </div>
   );
@@ -145,7 +161,7 @@ export default function Dashboard() {
                       ['Status', 'Auto-Approved & Paid'],
                       ['Time', new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})],
                     ].map(([k,v]) => (
-                      <div key={k} className="flex items-center justify-between py-2" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+                      <div key={k} className="flex items-center justify-between py-2" style={{borderBottom:'1px solid rgba(74,74,74,0.05)'}}>
                         <span className="text-sm" style={{color:'var(--text-3)'}}>{k}</span>
                         <span className="text-sm font-bold capitalize" style={{color:'var(--text-1)'}}>{v}</span>
                       </div>
@@ -164,38 +180,50 @@ export default function Dashboard() {
         {/* Topbar */}
         <div className="topbar-premium px-10 py-6 flex items-center justify-between sticky top-0 z-20">
           <div>
-            <motion.h1 initial={{opacity:0,x:-20}} animate={{opacity:1,x:0}} className="text-3xl font-black mb-1" style={{color:'var(--text-1)'}}>
-              Welcome back, {worker?.name?.split(' ')[0]} 👋
+            <motion.h1 initial={{opacity:0,x:-20}} animate={{opacity:1,x:0}} className="text-2xl font-black mb-1" style={{color:'var(--text-1)'}}>
+              {t('tagline')}
             </motion.h1>
             <div className="flex items-center gap-4 text-sm font-medium" style={{color:'var(--text-2)'}}>
-              <span className="flex items-center gap-2"><MapPin size={14} className="text-yellow-400" />{worker?.city}</span>
-              <span>•</span><span>{worker?.platform}</span>
-              <span>•</span>
-              <span className="flex items-center gap-2"><Clock size={14} className="text-yellow-400" />{worker?.weekly_hours}h/week</span>
+              <span className="font-semibold" style={{color:'var(--text-1)'}}>{worker?.name?.split(' ')[0]}</span>
+              <span>·</span>
+              <span className="flex items-center gap-1.5"><MapPin size={13} style={{color:'#7091E6'}} />{worker?.city}</span>
+              <span>·</span><span>{worker?.platform}</span>
+              <span>·</span>
+              <span className="flex items-center gap-1.5"><Clock size={13} style={{color:'#7091E6'}} />{worker?.weekly_hours}h/week</span>
             </div>
           </div>
           {!activePolicy && (
             <motion.button initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}}
               onClick={activatePolicy}
-              className="flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-base text-white shadow-2xl transition-all hover:scale-105"
-              style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>
-              <Plus size={20} strokeWidth={3} />
-              Activate Policy
+              className="flex items-center gap-2.5 px-6 py-3.5 font-bold text-sm text-white transition-all hover:scale-105"
+              style={{
+                background: 'linear-gradient(140deg, #3D52A0, #7091E6)',
+                borderRadius: '14px 18px 14px 18px',
+                boxShadow: '0 6px 20px rgba(61,82,160,0.3)',
+              }}>
+              <Plus size={18} strokeWidth={2.5} />
+              {t('activatePolicy')}
             </motion.button>
           )}
         </div>
 
         <div className="p-10 space-y-8 max-w-[1800px]">
-          {/* Stats */}
-          <div className="grid grid-cols-4 gap-6">
-            <StatCard label="Risk Score"     value={`${riskScore}%`}                          icon={TrendingUp}  color="#FFCE32" delay={0}   sub={riskProfile?.tier + ' tier'} trend={-5} />
-            <StatCard label="Weekly Premium" value={riskProfile ? `₹${riskProfile.premium}` : '—'} icon={IndianRupee} color="#3b82f6" delay={0.1} sub="Dynamic ML pricing" />
-            <StatCard label="Earnings Protected" value={activePolicy ? `₹${activePolicy.coverage_amount}` : '—'} icon={Shield} color="#22c55e" delay={0.2} sub={activePolicy ? 'This week' : 'No active policy'} />
-            <StatCard label="Total Paid Out"   value={`₹${totalPaid}`}                        icon={FileText}    color="#8b5cf6" delay={0.3} sub={`${totalClaims} claims filed`} trend={totalClaims > 0 ? 12 : 0} />
+          {/* Stats — fluid, not rigid grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            <StatCard label={t('riskScore')}        value={`${riskScore}%`}                               icon={TrendingUp}  color="#5B6FD4" delay={0}   sub={riskProfile?.tier + ' tier'} trend={-5} />
+            <StatCard label={t('weeklyPremium')}    value={riskProfile ? `₹${riskProfile.premium}` : '—'} icon={IndianRupee} color="#3b82f6" delay={0.08} sub={t('dynamicPricing')} />
+            <StatCard label={t('earningsProtected')} value={activePolicy ? `₹${activePolicy.coverage_amount}` : '—'} icon={Shield} color="#22c55e" delay={0.16} sub={activePolicy ? t('thisWeek') : t('noActivePolicy')} />
+            <StatCard label={t('totalPaidOut')}     value={`₹${totalPaid}`}                               icon={FileText}    color="#8b5cf6" delay={0.24} sub={`${totalClaims} ${t('claimsFiled')}`} trend={totalClaims > 0 ? 12 : 0} />
           </div>
 
           {/* Live Conditions — 5 triggers */}
           {worker?.city && <LiveConditions city={worker.city} />}
+
+          {/* Burnout Protection + Platform Downtime */}
+          <div className="grid grid-cols-2 gap-6">
+            <BurnoutProtection worker={worker} />
+            <PlatformDowntime worker={worker} riskTier={riskProfile?.tier} />
+          </div>
 
           {/* Pricing Breakdown — shown on Plans page after payment */}
 
@@ -209,7 +237,7 @@ export default function Dashboard() {
                 </div>
                 <div className={`px-3 py-1.5 rounded-full text-xs font-black uppercase ${
                   riskScore < 40 ? 'bg-green-500/15 text-green-400' :
-                  riskScore < 70 ? 'bg-yellow-500/15 text-yellow-400' : 'bg-red-500/15 text-red-400'}`}>
+                  riskScore < 70 ? 'bg-yellow-500/15 text-[#4A4A4A]' : 'bg-red-500/15 text-red-400'}`}>
                   {riskProfile?.tier}
                 </div>
               </div>
@@ -217,7 +245,7 @@ export default function Dashboard() {
                 <div className="relative w-48 h-48">
                   <ResponsiveContainer width="100%" height="100%">
                     <RadialBarChart cx="50%" cy="50%" innerRadius="70%" outerRadius="100%" data={[{value:riskScore}]} startAngle={90} endAngle={-270}>
-                      <RadialBar dataKey="value" fill="#FFCE32" background={{fill:'rgba(255,255,255,0.05)'}} cornerRadius={10} />
+                      <RadialBar dataKey="value" fill="#5B6FD4" background={{fill:'rgba(61,82,160,0.06)'}} cornerRadius={10} />
                     </RadialBarChart>
                   </ResponsiveContainer>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -229,7 +257,7 @@ export default function Dashboard() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-4 rounded-xl" style={{background:'var(--bg-2)'}}>
                   <span className="text-sm font-semibold" style={{color:'var(--text-2)'}}>Weekly Premium</span>
-                  <span className="text-lg font-black text-yellow-400">₹{riskProfile?.premium}</span>
+                  <span className="text-lg font-black" style={{color:'var(--accent-mid)'}}>₹{riskProfile?.premium}</span>
                 </div>
                 <div className="flex items-center justify-between p-4 rounded-xl" style={{background:'var(--bg-2)'}}>
                   <span className="text-sm font-semibold" style={{color:'var(--text-2)'}}>Coverage</span>
@@ -276,7 +304,7 @@ export default function Dashboard() {
                     </div>
                     <div className="p-5 rounded-xl" style={{background:'var(--bg-2)'}}>
                       <p className="text-xs font-bold uppercase mb-2" style={{color:'var(--text-3)'}}>Risk Score</p>
-                      <p className="text-2xl font-black text-yellow-400">{(activePolicy.risk_score*100).toFixed(0)}%</p>
+                      <p className="text-2xl font-black" style={{color:'var(--accent-mid)'}}>{(activePolicy.risk_score*100).toFixed(0)}%</p>
                     </div>
                     <div className="p-5 rounded-xl" style={{background:'var(--bg-2)'}}>
                       <p className="text-xs font-bold uppercase mb-2" style={{color:'var(--text-3)'}}>Period</p>
@@ -306,8 +334,9 @@ export default function Dashboard() {
                   <p className="text-xl font-bold mb-2" style={{color:'var(--text-2)'}}>No Active Policy</p>
                   <p className="text-sm mb-6" style={{color:'var(--text-3)'}}>Activate to get covered and enable zero-touch claims</p>
                   <button onClick={activatePolicy}
-                    className="px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-yellow-400 to-prussian-DEFAULT hover:scale-105 transition-transform">
-                    View Plans
+                    className="px-8 py-3 font-bold text-white transition-all hover:scale-105"
+                    style={{ background: 'linear-gradient(140deg, #3D52A0, #7091E6)', borderRadius: '12px 16px 12px 16px', boxShadow: '0 6px 20px rgba(61,82,160,0.28)' }}>
+                    {t('viewPlans')}
                   </button>
                 </div>
               )}
@@ -323,17 +352,17 @@ export default function Dashboard() {
                   <AreaChart data={mockCoverageData}>
                     <defs>
                       <linearGradient id="cg1" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#FFCE32" stopOpacity={0.3} /><stop offset="95%" stopColor="#FFCE32" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#5B6FD4" stopOpacity={0.25} /><stop offset="95%" stopColor="#5B6FD4" stopOpacity={0} />
                       </linearGradient>
                       <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} /><stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#ef4444" stopOpacity={0.2} /><stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <XAxis dataKey="week" stroke="rgba(255,255,255,0.2)" tick={{fill:'#9ca3af',fontSize:12}} />
-                    <YAxis stroke="rgba(255,255,255,0.2)" tick={{fill:'#9ca3af',fontSize:12}} />
-                    <Tooltip contentStyle={{background:'rgba(0,0,0,0.9)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'12px',color:'#fff'}} />
-                    <Area type="monotone" dataKey="coverage" stroke="#FFCE32" strokeWidth={3} fill="url(#cg1)" />
-                    <Area type="monotone" dataKey="claims" stroke="#ef4444" strokeWidth={3} fill="url(#cg2)" />
+                    <XAxis dataKey="week" stroke="rgba(134,151,196,0.2)" tick={{fill:'var(--text-3)',fontSize:11}} />
+                    <YAxis stroke="rgba(134,151,196,0.2)" tick={{fill:'var(--text-3)',fontSize:11}} />
+                    <Tooltip contentStyle={{background:'rgba(255,255,255,0.95)',border:'1px solid rgba(134,151,196,0.2)',borderRadius:'14px',color:'var(--text-1)',boxShadow:'0 8px 24px rgba(61,82,160,0.1)'}} />
+                    <Area type="monotone" dataKey="coverage" stroke="#5B6FD4" strokeWidth={2.5} fill="url(#cg1)" />
+                    <Area type="monotone" dataKey="claims" stroke="#ef4444" strokeWidth={2.5} fill="url(#cg2)" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -343,31 +372,50 @@ export default function Dashboard() {
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={mockActivityData}>
-                    <XAxis dataKey="day" stroke="rgba(255,255,255,0.2)" tick={{fill:'#9ca3af',fontSize:12}} />
-                    <YAxis stroke="rgba(255,255,255,0.2)" tick={{fill:'#9ca3af',fontSize:12}} />
-                    <Tooltip contentStyle={{background:'rgba(0,0,0,0.9)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'12px',color:'#fff'}} />
-                    <Bar dataKey="hours" fill="#3b82f6" radius={[8,8,0,0]} />
+                    <XAxis dataKey="day" stroke="rgba(134,151,196,0.2)" tick={{fill:'var(--text-3)',fontSize:11}} />
+                    <YAxis stroke="rgba(134,151,196,0.2)" tick={{fill:'var(--text-3)',fontSize:11}} />
+                    <Tooltip contentStyle={{background:'rgba(255,255,255,0.95)',border:'1px solid rgba(134,151,196,0.2)',borderRadius:'14px',color:'var(--text-1)',boxShadow:'0 8px 24px rgba(61,82,160,0.1)'}} />
+                    <Bar dataKey="hours" fill="#7091E6" radius={[10,10,4,4]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </motion.div>
           </div>
 
-          {/* Claims Table */}
-          <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.8}} className="glass-card-strong p-8">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-xl font-black mb-1" style={{color:'var(--text-1)'}}>Claims History</h2>
-                <p className="text-sm font-medium" style={{color:'var(--text-2)'}}>Auto-generated on trigger events. Zero forms required.</p>
+          {/* Coverage Map + Claims Table */}
+          <div className="grid grid-cols-5 gap-6">
+            {/* Google Maps Coverage Zone */}
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.75}} className="col-span-2 glass-card-strong p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <MapPin size={18} style={{color:'#3D52A0'}} />
+                <h2 className="text-lg font-black" style={{color:'var(--text-1)'}}>Coverage Zone</h2>
+                <span className="ml-auto text-xs font-bold px-2.5 py-1 rounded-full"
+                  style={{background:'rgba(61,82,160,0.1)',color:'#3D52A0'}}>Live Map</span>
               </div>
-              {totalClaims > 0 && (
-                <div className="px-4 py-2 rounded-full bg-yellow-400/15 text-yellow-400 font-black text-sm">
-                  {totalClaims} claims
+              <div className="h-64 rounded-2xl overflow-hidden">
+                {worker?.city && (
+                  <CoverageMap city={worker.city} pinCode={worker.pin_code} workerName={worker.name} />
+                )}
+              </div>
+            </motion.div>
+
+            {/* Claims Table */}
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.8}} className="col-span-3 glass-card-strong p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-xl font-black mb-1" style={{color:'var(--text-1)'}}>{t('claimsHistory')}</h2>
+                  <p className="text-sm font-medium" style={{color:'var(--text-2)'}}>Auto-generated on trigger events. Zero forms required.</p>
                 </div>
-              )}
-            </div>
-            <ClaimsTable claims={claims} />
-          </motion.div>
+                {totalClaims > 0 && (
+                  <div className="px-4 py-2 rounded-full font-black text-sm"
+                    style={{background:'rgba(61,82,160,0.1)',color:'#3D52A0'}}>
+                    {totalClaims} {t('claimsFiled')}
+                  </div>
+                )}
+              </div>
+              <ClaimsTable claims={claims} />
+            </motion.div>
+          </div>
         </div>
       </main>
     </div>

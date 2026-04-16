@@ -75,7 +75,7 @@ export default function Workers() {
 
       <div className="glass-card-strong rounded-2xl overflow-hidden">
         <table className="w-full text-sm">
-          <thead><tr style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+          <thead><tr style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
             {['Name','City','Platform','Hours/wk','Risk Tier','Status','Actions'].map(h=>(
               <th key={h} className="text-left px-5 py-3 text-xs font-bold uppercase tracking-wider" style={{color:'var(--text-3)'}}>{h}</th>
             ))}
@@ -83,10 +83,10 @@ export default function Workers() {
           <tbody>
             {filtered.map((w,i) => (
               <motion.tr key={w.id} initial={{opacity:0}} animate={{opacity:1}} transition={{delay:i*0.04}}
-                className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                className="hover:bg-white/10 transition-colors" style={{borderBottom:'1px solid rgba(203,203,203,0.3)'}}>
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>{w.name[0]}</div>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-black text-white" style={{background:'linear-gradient(135deg,#6D8196,#4f6070)'}}>{w.name[0]}</div>
                     <div><p className="font-semibold" style={{color:'var(--text-1)'}}>{w.name}</p><p className="text-xs" style={{color:'var(--text-3)'}}>{w.phone}</p></div>
                   </div>
                 </td>
@@ -102,7 +102,7 @@ export default function Workers() {
                 <td className="px-5 py-3.5">
                   <div className="flex items-center gap-2">
                     <button onClick={()=>setSelected(w)} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"><Eye size={14} style={{color:'var(--text-3)'}} /></button>
-                    <button className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors"><Flag size={14} className="text-yellow-500" /></button>
+                    <button className="p-1.5 rounded-lg hover:bg-yellow-500/10 transition-colors"><Flag size={14} className="text-[#6D8196]" /></button>
                     <button className="p-1.5 rounded-lg hover:bg-red-500/10 transition-colors"><Ban size={14} className="text-red-500" /></button>
                   </div>
                 </td>
@@ -113,20 +113,20 @@ export default function Workers() {
       </div>
 
       {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{background:'rgba(0,0,0,0.7)',backdropFilter:'blur(8px)'}} onClick={()=>setSelected(null)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{background:'rgba(255,255,255,0.9)',backdropFilter:'blur(8px)'}} onClick={()=>setSelected(null)}>
           <motion.div initial={{scale:0.9,opacity:0}} animate={{scale:1,opacity:1}} onClick={e=>e.stopPropagation()}
             className="glass-card-strong p-8 rounded-3xl w-full max-w-md">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>{selected.name[0]}</div>
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black text-white" style={{background:'linear-gradient(135deg,#6D8196,#4f6070)'}}>{selected.name[0]}</div>
               <div><h3 className="text-xl font-black" style={{color:'var(--text-1)'}}>{selected.name}</h3><p style={{color:'var(--text-3)'}}>{selected.phone}</p></div>
             </div>
             {[['City',selected.city],['Platform',selected.platform],['PIN Code',selected.pin_code],['Weekly Hours',`${selected.weekly_hours}h`],['Risk Tier',selected.risk_tier||'Standard'],['Member Since',new Date(selected.created_at).toLocaleDateString('en-IN')]].map(([k,v])=>(
-              <div key={k} className="flex justify-between py-3" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+              <div key={k} className="flex justify-between py-3" style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
                 <span className="text-sm" style={{color:'var(--text-3)'}}>{k}</span>
                 <span className="text-sm font-bold" style={{color:'var(--text-1)'}}>{v}</span>
               </div>
             ))}
-            <button onClick={()=>setSelected(null)} className="mt-6 w-full py-3 rounded-xl font-bold text-white" style={{background:'linear-gradient(135deg,#FFCE32,#1D63FF)'}}>Close</button>
+            <button onClick={()=>setSelected(null)} className="mt-6 w-full py-3 rounded-xl font-bold text-white" style={{background:'linear-gradient(135deg,#6D8196,#4f6070)'}}>Close</button>
           </motion.div>
         </div>
       )}

@@ -4,7 +4,7 @@ import { ShieldAlert, AlertTriangle, Eye, CheckCircle, RefreshCw, MapPin, Zap, X
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { adminApi } from '../../api';
 
-const TT = { background:'rgba(0,0,0,0.85)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:'10px', fontSize:'12px', color:'#fff' };
+const TT = { background:'rgba(255,255,255,0.97)', border:'1px solid rgba(203,203,203,0.5)', borderRadius:'10px', fontSize:'12px', color:'#4A4A4A' };
 
 // GPS Spoof Demo — fires a trigger for a DIFFERENT pin than the worker's registered pin
 // This demonstrates zone mismatch detection
@@ -189,7 +189,7 @@ export default function Fraud() {
           {data.distribution.length === 0 ? (
             <div className="flex items-center justify-center h-40 text-sm" style={{color:'var(--text-3)'}}>No claims yet</div>
           ) : (
-            <div className="h-40"><ResponsiveContainer width="100%" height="100%"><BarChart data={data.distribution} barSize={18}><XAxis dataKey="range" tick={{fill:'rgba(255,255,255,0.4)',fontSize:9}} axisLine={false} tickLine={false} /><YAxis tick={{fill:'rgba(255,255,255,0.4)',fontSize:9}} axisLine={false} tickLine={false} /><Tooltip contentStyle={TT} /><Bar dataKey="count" fill="#ef4444" radius={[4,4,0,0]} /></BarChart></ResponsiveContainer></div>
+            <div className="h-40"><ResponsiveContainer width="100%" height="100%"><BarChart data={data.distribution} barSize={18}><XAxis dataKey="range" tick={{fill:'rgba(74,74,74,0.45)',fontSize:9}} axisLine={false} tickLine={false} /><YAxis tick={{fill:'rgba(74,74,74,0.45)',fontSize:9}} axisLine={false} tickLine={false} /><Tooltip contentStyle={TT} /><Bar dataKey="count" fill="#ef4444" radius={[4,4,0,0]} /></BarChart></ResponsiveContainer></div>
           )}
         </div>
 
@@ -218,7 +218,7 @@ export default function Fraud() {
 
       {/* Watchlist */}
       <div className="glass-card-strong rounded-2xl overflow-hidden">
-        <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+        <div className="px-5 py-4 flex items-center gap-3" style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
           <MapPin size={15} style={{color:'#ef4444'}} />
           <h3 className="font-bold" style={{color:'var(--text-1)'}}>Watchlist Accounts</h3>
           <span className="ml-auto text-xs px-3 py-1 rounded-full font-bold" style={{background:'rgba(239,68,68,0.1)',color:'#ef4444'}}>{data.watchlist.length} flagged</span>
@@ -231,7 +231,7 @@ export default function Fraud() {
           </div>
         ) : (
           <table className="w-full text-sm">
-            <thead><tr style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+            <thead><tr style={{borderBottom:'1px solid rgba(203,203,203,0.4)'}}>
               {['Worker','City','Fraud Score','Pattern','Claims','Status','Actions'].map(h=>(
                 <th key={h} className="text-left px-5 py-3 text-xs font-bold uppercase tracking-wider" style={{color:'var(--text-3)'}}>{h}</th>
               ))}
@@ -239,7 +239,7 @@ export default function Fraud() {
             <tbody>
               {data.watchlist.map((w,i) => (
                 <motion.tr key={w.id} initial={{opacity:0}} animate={{opacity:1}} transition={{delay:i*0.05}}
-                  className="hover:bg-white/5 transition-colors" style={{borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                  className="hover:bg-white/10 transition-colors" style={{borderBottom:'1px solid rgba(203,203,203,0.3)'}}>
                   <td className="px-5 py-3.5 font-semibold" style={{color:'var(--text-1)'}}>{w.name}</td>
                   <td className="px-5 py-3.5" style={{color:'var(--text-2)'}}>{w.city}</td>
                   <td className="px-5 py-3.5 font-black text-red-400">{(w.score*100).toFixed(0)}%</td>
