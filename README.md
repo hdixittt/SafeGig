@@ -1,5 +1,11 @@
 # SafeGig (Coverly)
 
+# Pitch Deck
+
+https://docs.google.com/presentation/d/1j5fZabHPiZn00gCIXIQzo6Yky9VoUwlU/edit?usp=sharing&ouid=101718299265661184177&rtpof=true&sd=true
+
+
+
 AI-powered parametric income insurance for India's gig delivery workers.
 
 Guidewire DEVTrails 2026 Hackathon. Team Codestorm. Persona: Grocery and Q-Commerce delivery partners on Zepto, Blinkit, and Swiggy Instamart.
