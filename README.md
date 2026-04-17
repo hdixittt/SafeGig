@@ -1,8 +1,19 @@
-# SafeGig
+# SafeGig (Coverly)
 
 AI-powered parametric income insurance for India's gig delivery workers.
 
-Guidewire DEVTrails 2026 Hackathon. Team Codestorm. Persona: Grocery and Q-Commerce delivery partners on Zepto and Blinkit.
+Guidewire DEVTrails 2026 Hackathon. Team Codestorm. Persona: Grocery and Q-Commerce delivery partners on Zepto, Blinkit, and Swiggy Instamart.
+
+## Recent Updates (April 2026)
+
+- **UI Redesign & Rebrand**: A complete visual overhaul featuring a vibrant Yellow (#FFCE32) and Prussian Blue (#1D63FF) color scheme, unified under the **Coverly** UI identity.
+- **Expanded Coverage**: Introduced new parametric triggers for **Platform Downtime** and **Burnout Protection** to address app outages and excessive continuous working hours.
+- **Multi-Language Support**: Seamless, real-time language switching integrated across the worker portal.
+- **AI-Powered Assistance**: A new context-aware AI Chatbot, accompanied by a dedicated Customer Care portal and FAQ.
+- **Advanced Admin Features**: 
+  - Live GPS Spoofing demo in the Fraud console to visualize and trace location manipulation.
+  - Pin-code zone granularity for automated batch claim filing: firing an admin trigger instantly covers all workers in that zone, pushing full-screen UPI receipt overlays via a 10s polling interval.
+- **Worker Enhancements**: Coverage Map for visualizing active zones, and a new Bonus Dashboard for incentive tracking.
 
 ## The Problem
 
@@ -74,7 +85,7 @@ Honest workers should not be punished for weak network coverage or bad weather. 
 
 ## Tech Stack
 
-The frontend is React with Vite, Tailwind CSS, and Framer Motion. The backend is Node.js with Express and Supabase for the database and auth. The ML service is Python FastAPI with scikit-learn and XGBoost. External APIs used are OpenWeatherMap for weather triggers, AQICN for pollution monitoring, Razorpay in sandbox mode for payout simulation, and Google Gemini for claim summaries.
+The frontend is React with Vite, Tailwind CSS, and Framer Motion. It features a modern Yellow and Prussian Blue design system, multi-language context support, and responsive layouts. The backend is Node.js with Express and Supabase for the database and auth. The ML service is Python FastAPI with scikit-learn and XGBoost. External APIs used are OpenWeatherMap for weather triggers, AQICN for pollution monitoring, Razorpay in sandbox mode for payout simulation, and Google Gemini for claim summaries and AI chatbot interactions.
 
 ## How to Run
 

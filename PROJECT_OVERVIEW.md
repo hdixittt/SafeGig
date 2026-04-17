@@ -1,6 +1,6 @@
-# SafeGig — Project Overview
+# SafeGig (Coverly) — Project Overview
 
-AI-powered parametric insurance platform for gig delivery workers in India. Workers pay a weekly premium and receive automatic payouts when environmental triggers (rain, heat, pollution, curfew, accidents) cross defined thresholds — no forms, no claims process, no waiting.
+AI-powered parametric insurance platform for gig delivery workers in India. Workers pay a weekly premium and receive automatic payouts when environmental triggers (rain, heat, pollution, curfew, accidents, platform downtime, burnout) cross defined thresholds — no forms, no claims process, no waiting.
 
 ---
 
@@ -49,6 +49,7 @@ India's 15 million+ gig delivery workers (Zepto, Blinkit, Swiggy, Zomato) have z
 | Lucide React | 0.344 | Icon library |
 | Axios | 1.6 | HTTP client |
 | React Router DOM | 6.21 | Client-side routing |
+| Context API | native | Multi-language localization and state propagation |
 | PostCSS + Autoprefixer | latest | CSS processing |
 
 ### Backend
@@ -122,14 +123,21 @@ safegig/
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── AdminSidebar.jsx        13-tab admin navigation
+│   │   │   ├── BurnoutProtection.jsx   Burnout monitoring module
+│   │   │   ├── Chatbot.jsx             Context-aware AI assistant
 │   │   │   ├── ClaimsTable.jsx         Claims list with trigger icons
+│   │   │   ├── CoverageMap.jsx         Active disruption zones visualization
+│   │   │   ├── CoverlyLogo.jsx         Branded platform logo
+│   │   │   ├── LanguageSelector.jsx    Multi-language UI toggle
 │   │   │   ├── LiveConditions.jsx      Real-time weather/AQI/trigger display
+│   │   │   ├── PlatformDowntime.jsx    Outage tracker for gig apps
 │   │   │   ├── PolicyCard.jsx          Policy summary card
 │   │   │   ├── RiskCard.jsx            Risk score display
 │   │   │   ├── Sidebar.jsx             Worker portal navigation
 │   │   │   ├── StatCard.jsx            Metric card component
 │   │   │   └── ThemeToggle.jsx         Dark/light mode toggle
 │   │   ├── context/
+│   │   │   ├── LanguageContext.jsx     Multi-language context state
 │   │   │   └── ThemeContext.jsx        Global theme state (localStorage)
 │   │   ├── pages/
 │   │   │   ├── admin/
@@ -148,7 +156,10 @@ safegig/
 │   │   │   │   └── Roles.jsx           User roles and audit log
 │   │   │   ├── AdminDashboard.jsx      Admin shell with tab routing
 │   │   │   ├── AdminLogin.jsx          Admin login page
+│   │   │   ├── BonusDashboard.jsx      Dashboard for tracking incentives
+│   │   │   ├── CustomerCare.jsx        Support resources and ticket portal
 │   │   │   ├── Dashboard.jsx           Worker dashboard
+│   │   │   ├── FAQ.jsx                 Frequently Asked Questions portal
 │   │   │   ├── Login.jsx               Worker login
 │   │   │   ├── Plans.jsx               Plan selection + Razorpay checkout
 │   │   │   └── Register.jsx            Worker registration
@@ -307,6 +318,7 @@ Simulates Isolation Forest anomaly detection:
 - Trigger type bonus: curfew claims get -0.05 (harder to fake)
 - Random jitter: ±0.04 for realistic variance
 - Threshold: >0.70 flags for manual review
+- **Live GPS Spoofing Demo**: Visualizes and traces fraudulent location manipulation directly within the Admin Fraud Console.
 
 ### 5. Payment Flow (Razorpay)
 
@@ -388,9 +400,9 @@ GET  /api/admin/stats/payouts           Total payout amount
 | Workers | Full registry, search/filter by city/platform/tier, profile modal, flag/suspend |
 | Policies | Active/expired/cancelled list, extend/cancel actions |
 | Premium Engine | ML signal bars, zone pricing heatmap, manual re-price trigger |
-| Trigger Monitor | Live 5-trigger dashboard with real API data, manual fire panel |
+| Trigger Monitor | Live 5-trigger dashboard with real API data. Manual mock triggers immediately auto-file claims for all workers in the affected pin code. |
 | Claims | Full pipeline table, drill-down modal with fraud score + GPS validation |
-| Fraud Console | Score distribution chart, suspicious patterns, watchlist with escalate/clear |
+| Fraud Console | Score distribution chart, suspicious patterns, watchlist, and **Live GPS Spoofing Demo** |
 | Payout Tracker | Every UPI transaction, aggregate stats, failed retry queue |
 | Zone Heatmap | Visual grid of 8 cities with risk/rain/AQI/temp metric toggle |
 | ML Health | Accuracy/AUC-ROC metrics, predicted vs actual chart, drift alert, retrain button |
@@ -449,11 +461,12 @@ Admin demo: admin@safegig.demo / SafeGig@2026 at /admin/login
 
 ## Design System
 
-- Theme: Pure black background (#000), glassmorphism cards, orange (#f97316) accent
+- Theme: Rebranded to **Coverly**, using a vibrant Yellow (#FFCE32) and Prussian Blue (#1D63FF) color scheme.
 - CSS variables: `--bg`, `--bg-2`, `--text-1`, `--text-2`, `--text-3`, `--border`
+- Multi-Language: Powered by Context API allowing seamless localized UX.
 - Dark/light toggle stored in localStorage as `sg_theme`, applied via `data-theme` on `<html>`
 - Typography: Inter (system font stack), font-black for headings
-- Animations: Framer Motion for page transitions, card entrances, banner notifications
+- Animations: Framer Motion for page transitions, full-screen UPI receipt popups, banner notifications
 - Charts: Recharts — AreaChart, BarChart, LineChart, RadialBarChart, PieChart
 
 ---
@@ -465,6 +478,8 @@ Admin demo: admin@safegig.demo / SafeGig@2026 at /admin/login
 3. Open-Meteo used for weather and AQI — completely free, no API key, reliable uptime
 4. AQI computed from PM2.5 using official EPA breakpoints (not Open-Meteo's inaccurate us_aqi field)
 5. Razorpay falls back to mock mode if keys are missing — demo works end-to-end without payment keys
-6. Zero-touch claims poll every 30 seconds on the worker dashboard — no user action needed
+6. Zero-touch claims feature 10-second polling on the dashboard. Admin triggers instantly file claims for all workers in that zone, showing a full-screen UPI receipt.
 7. Admin portal uses tab-based routing (no URL changes) to keep the single /admin route clean
 8. City matching uses partial string matching — "Gurgaon", "Gurugram", "New Delhi" all resolve correctly
+9. Chatbot & Customer Care modules integrate Google Gemini to provide instant, context-aware gig query resolutions.
+10. Multi-language support implemented via Context API ensures an inclusive workflow for diverse driver demographics.
